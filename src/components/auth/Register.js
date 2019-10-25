@@ -1,6 +1,7 @@
 import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import "./Login.css"
 
 const Register = props => {
     // Dom refs
@@ -42,18 +43,6 @@ const Register = props => {
 
     return (
         <>
-            {/* <h1>register form</h1>
-            <input ref={username} type="text" placeholder="username" />
-            <input ref={password} type="password" placeholder="password" />
-            <input ref={firstName} type="text" placeholder="first name" />
-            <input ref={lastName} type="text" placeholder="last name" />
-            <input ref={email} type="text" placeholder="email" />
-            <input ref={company_name} type="text" placeholder="company_name" />
-            <input ref={phone} type="text" placeholder="phone number" />
-            <input ref={city} type="text" placeholder="city" />
-            <input ref={bio} type="text" placeholder="bio" />
-            <button onClick={handleRegister}>Register</button> */}
-
             <form className="form--login" onSubmit={handleRegister}>
                 <h1>
                     Register to use KTER

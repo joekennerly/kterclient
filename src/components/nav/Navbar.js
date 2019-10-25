@@ -1,11 +1,39 @@
-import React from 'react'
+import React from "react"
 import { Link } from "react-router-dom"
 import "./Navbar.css"
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
-const Navbar = () =>
-    <div id="Navbar">
-        <Link to="/"><h3>Home</h3></Link>
-        <Link to="/login"><h3>Login</h3></Link>
-        <Link to="/register"><h3>Register</h3></Link>
-    </div>
+const Navbar = (props) => {
+    const { isAuthenticated, logout } = useSimpleAuth()
+    return (
+        <div id="Navbar">
+            <Link className="nav-link" to="/">
+                Home
+            </Link>
+            {isAuthenticated() ? (
+                <Link
+                    to="/"
+                        className="nav-link fakeLink"
+                        onClick={() => {
+                            logout()
+                            props.history.push({
+                                pathname: "/"
+                            })
+                        }}
+                    >
+                        Logout
+                    </Link>
+            ) : (
+                <>
+                        <Link className="nav-link" to="/login">
+                            Login
+                        </Link>
+                        <Link className="nav-link" to="/register">
+                            Register
+                        </Link>
+                </>
+            )}
+        </div>
+    )
+}
 export default Navbar
