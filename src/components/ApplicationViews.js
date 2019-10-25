@@ -1,5 +1,6 @@
 import React from "react"
-import { Route, Redirect } from "react-router-dom"
+import { Route } from "react-router-dom"
+// import { Route, Redirect } from "react-router-dom"
 import { withRouter } from "react-router"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
