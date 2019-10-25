@@ -14,6 +14,11 @@ const ApplicationViews = () => (
             path="/login"
             render={props => <Login />}
         />
+        <Route
+            exact
+            path="/"
+            render={props => <h1>Home page</h1>}
+        />
     </>
 )
 
