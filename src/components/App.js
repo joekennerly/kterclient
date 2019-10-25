@@ -2,14 +2,10 @@ import React from "react"
 import "./App.css"
 import ApplicationViews from "./ApplicationViews"
 
-function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <ApplicationViews />
-            </header>
-        </div>
-    )
-}
+const App = () => (
+    <header className="App-header">
+        <ApplicationViews />
+    </header>
+)
 
 export default App
