@@ -4,6 +4,8 @@ import { Route } from "react-router-dom"
 import { withRouter } from "react-router"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
+import Profile from "./profile/Profile"
+import Home from "./home/Home"
 
 const ApplicationViews = () => (
     <>
@@ -18,7 +20,12 @@ const ApplicationViews = () => (
         <Route
             exact
             path="/"
-            render={props => <h1>Home page</h1>}
+            render={props => <Home />}
+        />
+        <Route
+            exact
+            path="/profile"
+            render={props => <Profile />}
         />
     </>
 )
