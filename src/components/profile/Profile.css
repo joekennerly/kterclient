@@ -1,0 +1,7 @@
+#profile, #profile a {
+    color: white;
+}
+#productform {
+    display:flex;
+    flex-flow:column wrap;
+}

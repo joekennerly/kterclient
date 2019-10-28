@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import "./Navbar.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
-const Navbar = (props) => {
+const Navbar = () => {
     const { isAuthenticated, logout } = useSimpleAuth()
     return (
         <div id="Navbar">
@@ -11,26 +11,28 @@ const Navbar = (props) => {
                 Home
             </Link>
             {isAuthenticated() ? (
-                <Link
-                    to="/"
+                <>
+                    <Link className="nav-link" to="/profile">
+                        Profile
+                    </Link>
+                    <Link
+                        to="/"
                         className="nav-link fakeLink"
                         onClick={() => {
                             logout()
-                            props.history.push({
-                                pathname: "/"
-                            })
                         }}
                     >
                         Logout
                     </Link>
+                </>
             ) : (
                 <>
-                        <Link className="nav-link" to="/login">
-                            Login
-                        </Link>
-                        <Link className="nav-link" to="/register">
-                            Register
-                        </Link>
+                    <Link className="nav-link" to="/login">
+                        Login
+                    </Link>
+                    <Link className="nav-link" to="/register">
+                        Register
+                    </Link>
                 </>
             )}
         </div>
