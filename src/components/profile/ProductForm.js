@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import "./Profile.css"
 
-export default function ProductForm() {
+export default function ProductForm(props) {
     //Get category resource and set it as category state
     const [category, setCategory] = useState([])
     const getCategory = () => {
@@ -50,7 +50,7 @@ export default function ProductForm() {
             productcategory.current.value = "0"
             price.current.value = ""
             description.current.value = ""
-        })
+        }).then(props.getProducts)
         }
     }
 
