@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import "./Navbar.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
-const Navbar = props => {
+const Navbar = () => {
     const { isAuthenticated, logout } = useSimpleAuth()
     return (
         <div id="Navbar">
