@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "./Profile.css"
+import ProductForm from "./ProductForm"
 
 export default function Profile() {
     const [user, setUser] = useState([])
@@ -29,6 +30,7 @@ export default function Profile() {
             <h1>Welcome {vendor.user.first_name}</h1>
             <Link to="#">Manage Inventory</Link>
             <Link to="#">Add Event</Link>
+            <ProductForm />
         </section>
     ))
 }
