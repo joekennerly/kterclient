@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from "react"
 import "./Profile.css"
 
 export default function ProductForm() {
+    //Get category resource and set it as category state
     const [category, setCategory] = useState([])
-
     const getCategory = () => {
         fetch('http://localhost:8000/category', {
             "method": "GET",
@@ -18,25 +18,39 @@ export default function ProductForm() {
                 setCategory(categories)
             })
     }
-
     useEffect(getCategory, [])
 
+    //Input Refs
     const name = useRef()
     const productcategory = useRef()
     const price = useRef()
     const description = useRef()
 
-    const makeObject = () => {
-        let object = {
-            name: name.current.value,
-            productcategory: productcategory.current.value,
-            price: price.current.value,
-            description: description.current.value
-        }
-        console.log(object)
+    //Post a product, then set refs back to ""
+    const postProduct = () => {
+        console.log("added", {
+            "name": name.current.value,
+            "productcategory_id": +productcategory.current.value,
+            "price": price.current.value,
+            "description": description.current.value
+        })
+        fetch('http://localhost:8000/product', {
+            "method": "POST",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("kter_token")}`
+            },
+            body: JSON.stringify({
+                "name": name.current.value,
+                "productcategory_id": +productcategory.current.value,
+                "price": price.current.value,
+                "description": description.current.value
+            })
+        })
     }
 
-    //Make a selection input for category!!!
+    //Render Product form
     return (
         <div id="productform">
             <h1>Product Form</h1>
@@ -47,21 +61,19 @@ export default function ProductForm() {
                 placeholder="name"
                 autoFocus
             />
-
             <select
                 ref={productcategory}
                 name="category"
                 required
                 defaultValue="0"
             >
-                <option disabled value='0'>
+                <option value='0' disabled>
                     Select Category
                 </option>
                 {category.map(category => {
                     return <option key={category.id} value={category.id}>{category.name}</option>
                 })}
             </select>
-
             <input required ref={price} type="text" placeholder="price" />
             <input
                 required
@@ -69,7 +81,7 @@ export default function ProductForm() {
                 type="text"
                 placeholder="description"
             />
-            <button onClick={makeObject}>Submit</button>
+            <button onClick={postProduct}>Submit</button>
         </div>
     )
 }
