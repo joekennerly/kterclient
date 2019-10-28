@@ -28,13 +28,11 @@ export default function ProductForm() {
 
     //Post a product, then set refs back to ""
     const postProduct = () => {
-        console.log("added", {
-            "name": name.current.value,
-            "productcategory_id": +productcategory.current.value,
-            "price": price.current.value,
-            "description": description.current.value
-        })
-        fetch('http://localhost:8000/product', {
+        if (name.current.value === "" || productcategory.current.value === "0" || price.current.value === "" || description.current.value === "") {
+            window.alert("Please fill out all form fields")
+        }
+        else {
+            fetch('http://localhost:8000/product', {
             "method": "POST",
             "headers": {
                 "Accept": "application/json",
@@ -47,7 +45,13 @@ export default function ProductForm() {
                 "price": price.current.value,
                 "description": description.current.value
             })
+            }).then(() => {
+            name.current.value = ""
+            productcategory.current.value = "0"
+            price.current.value = ""
+            description.current.value = ""
         })
+        }
     }
 
     //Render Product form
@@ -67,14 +71,14 @@ export default function ProductForm() {
                 required
                 defaultValue="0"
             >
-                <option value='0' disabled>
+                <option value='0'>
                     Select Category
                 </option>
                 {category.map(category => {
                     return <option key={category.id} value={category.id}>{category.name}</option>
                 })}
             </select>
-            <input required ref={price} type="text" placeholder="price" />
+            <input required ref={price} type="number" placeholder="price" />
             <input
                 required
                 ref={description}
