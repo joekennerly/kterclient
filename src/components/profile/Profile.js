@@ -3,9 +3,12 @@ import { Link } from "react-router-dom"
 import "./Profile.css"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
+import CategoryList from "./CategoryList"
 
 export default function Profile() {
     const [user, setUser] = useState([])
+    const [products, setProducts] = useState([])
+    const [categories, setCategories] = useState([])
     const getUser = () => {
         fetch("http://localhost:8000/vendor", {
             method: "GET",
@@ -14,25 +17,52 @@ export default function Profile() {
                 Authorization: `Token ${localStorage.getItem("kter_token")}`
             }
         })
-            // Convert to JSON
             .then(response => response.json())
-
-            // Store itinerary items in state variable
             .then(user => {
                 setUser(user)
             })
     }
-    useEffect(getUser, [])
-    return user.map(vendor => (
-        <section
-            key={vendor.id}
-            id="profile"
-        >
-            <h1>Welcome {vendor.user.first_name}</h1>
-            <Link to="#">Manage Inventory</Link>
-            <Link to="#">Add Event</Link>
-            <ProductList />
-            <ProductForm />
-        </section>
-    ))
+    const getProducts = () => {
+        fetch("http://localhost:8000/product", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(products => {
+                setProducts(products)
+            })
+    }
+    const getCategories = () => {
+        fetch("http://localhost:8000/category", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(categories => {
+                setCategories(categories)
+            })
+    }
+    useEffect(() => {
+        getUser()
+        getProducts()
+        getCategories()
+    }, [])
+
+    return (
+        <>
+            {user.map(vendor => (
+                <section key={vendor.id} id="profile">
+                    <h1>Welcome {vendor.user.first_name}</h1>
+                </section>
+            ))}
+            <ProductList products={products} getProducts={getProducts}/>
+            <ProductForm getProducts={getProducts}/>
+        </>
+    )
 }
