@@ -19,7 +19,6 @@ const ProductDetail = props => {
     }
 
     const deleteItem = id => {
-        // Fetch data from localhost:8000/itineraryitems
         fetch(`http://localhost:8000/product/${id}`, {
             method: "DELETE",
             headers: {
@@ -29,8 +28,6 @@ const ProductDetail = props => {
                 )}`
             }
         })
-            // Redirect back to profile
-            // .then(() => getItem())
     }
 
     useEffect(() => {
