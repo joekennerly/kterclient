@@ -1,14 +1,15 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
-const Product = props => {
-    return (
-        <>
-            <section>
-                <button onClick={() => props.getProducts(props.product.id)}>
-                    {props.product.name}
-                </button>
-            </section>
-        </>
-    )
-}
+
+const Product = props => (
+    <>
+        <section>
+            <Link to={`/product/${props.product.id}`}>
+                {props.product.name}
+            </Link>
+        </section>
+    </>
+)
+
 export default Product

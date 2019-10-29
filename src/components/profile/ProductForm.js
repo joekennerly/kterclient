@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import "./Profile.css"
 
-export default function ProductForm(props) {
+const ProductForm = (props) => {
     //Get category resource and set it as category state
     const [category, setCategory] = useState([])
     const getCategory = () => {
@@ -89,3 +89,4 @@ export default function ProductForm(props) {
         </div>
     )
 }
+export default ProductForm
