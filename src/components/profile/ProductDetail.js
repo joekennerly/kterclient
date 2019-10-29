@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 
 const ProductDetail = props => {
     const [product, setProducts] = useState([])
@@ -18,16 +18,40 @@ const ProductDetail = props => {
             })
     }
 
+    const deleteItem = id => {
+        // Fetch data from localhost:8000/itineraryitems
+        fetch(`http://localhost:8000/product/${id}`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem(
+                    "kter_token"
+                )}`
+            }
+        })
+            // Redirect back to profile
+            // .then(() => getItem())
+    }
+
     useEffect(() => {
         getProduct(props.productId)
     }, [props.productId])
 
-    console.log(product)
     return (
         <>
             <h3>{product.name}</h3>
             <h5>${product.price}</h5>
             <p>Description: {product.description}</p>
+            <button
+                onClick={() => {
+                    if (window.confirm("Are you sure?")) {
+                        deleteItem(product.id)
+                        props.history.push('/profile')
+                    }
+                }}
+            >
+                Delete
+            </button>
         </>
     )
 }
