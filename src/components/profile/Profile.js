@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react"
 import "./Profile.css"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
-import CategoryList from "./CategoryList"
+// import CategoryList from "./CategoryList"
 
 export default function Profile() {
     const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
+
+    console.log(categories)
+
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
             method: "GET",
