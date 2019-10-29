@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import "./Profile.css"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
@@ -9,7 +8,7 @@ export default function Profile() {
     const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
-    const getUser = () => {
+    const getUser = () =>
         fetch("http://localhost:8000/vendor", {
             method: "GET",
             headers: {
@@ -21,8 +20,8 @@ export default function Profile() {
             .then(user => {
                 setUser(user)
             })
-    }
-    const getProducts = () => {
+
+    const getProducts = () =>
         fetch("http://localhost:8000/product", {
             method: "GET",
             headers: {
@@ -34,8 +33,8 @@ export default function Profile() {
             .then(products => {
                 setProducts(products)
             })
-    }
-    const getCategories = () => {
+
+    const getCategories = () =>
         fetch("http://localhost:8000/category", {
             method: "GET",
             headers: {
@@ -47,7 +46,7 @@ export default function Profile() {
             .then(categories => {
                 setCategories(categories)
             })
-    }
+
     useEffect(() => {
         getUser()
         getProducts()
@@ -61,8 +60,8 @@ export default function Profile() {
                     <h1>Welcome {vendor.user.first_name}</h1>
                 </section>
             ))}
-            <ProductList products={products} getProducts={getProducts}/>
-            <ProductForm getProducts={getProducts}/>
+            <ProductList products={products} getProducts={getProducts} />
+            <ProductForm getProducts={getProducts} />
         </>
     )
 }
