@@ -7,6 +7,7 @@ import Login from "./auth/Login"
 import Profile from "./profile/Profile"
 import Home from "./home/Home"
 import ProductDetail from "../components/profile/ProductDetail"
+import ProductEdit from "../components/profile/ProductEdit"
 
 const ApplicationViews = () => (
     <>
@@ -20,6 +21,14 @@ const ApplicationViews = () => (
             render={props => {
                 const productId = +props.match.params.productId
                 return <ProductDetail {...props} productId={productId} />
+            }}
+        />
+        <Route
+            exact
+            path="/product/:productId(\d+)/edit"
+            render={props => {
+                const productId = +props.match.params.productId
+                return <ProductEdit {...props} productId={productId} />
             }}
         />
     </>
