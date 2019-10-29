@@ -57,7 +57,7 @@ const ProductEdit = (props) => {
 
     //Render Product form
     return (
-        <div id="productform">
+        <div className="form">
             <h1>Edit Product</h1>
             <input
                 required
