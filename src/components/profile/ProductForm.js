@@ -56,8 +56,8 @@ const ProductForm = (props) => {
 
     //Render Product form
     return (
-        <div id="productform">
-            <h1>Product Form</h1>
+        <div className="form">
+            <h3>Add a product</h3>
             <input
                 required
                 ref={name}

@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react"
 import "./Profile.css"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
-// import CategoryList from "./CategoryList"
+import EventForm from "./EventForm"
 
 export default function Profile() {
     const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
-    const [categories, setCategories] = useState([])
-
-    console.log(categories)
 
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
@@ -37,23 +34,9 @@ export default function Profile() {
                 setProducts(products)
             })
 
-    const getCategories = () =>
-        fetch("http://localhost:8000/category", {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                Authorization: `Token ${localStorage.getItem("kter_token")}`
-            }
-        })
-            .then(response => response.json())
-            .then(categories => {
-                setCategories(categories)
-            })
-
     useEffect(() => {
         getUser()
         getProducts()
-        getCategories()
     }, [])
 
     return (
@@ -63,8 +46,9 @@ export default function Profile() {
                     <h1>Welcome {vendor.user.first_name}</h1>
                 </section>
             ))}
-            <ProductList products={products} getProducts={getProducts} />
             <ProductForm getProducts={getProducts} />
+            <ProductList products={products} getProducts={getProducts} />
+            <EventForm />
         </>
     )
 }
