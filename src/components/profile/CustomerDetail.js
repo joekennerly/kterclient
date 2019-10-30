@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import PaymentForm from './PaymentForm'
 
 const CustomerDetail = props => {
     const [customer, setCustomer] = useState([])
@@ -19,7 +21,7 @@ const CustomerDetail = props => {
             })
     }
 
-    const getPayments = (customerId) => {
+    const getPayments = customerId => {
         fetch(`http://localhost:8000/payment?customer_id=${customerId}`, {
             method: "GET",
             headers: {
@@ -39,11 +41,9 @@ const CustomerDetail = props => {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
-                Authorization: `Token ${localStorage.getItem(
-                    "kter_token"
-                )}`
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
             }
-        }).then(()=>props.history.push('/profile'))
+        }).then(() => props.history.push("/profile"))
     }
 
     useEffect(() => {
@@ -75,8 +75,15 @@ const CustomerDetail = props => {
             <p>City: {customer.city}</p>
             <p>Payment Types</p>
             <ul>
-                {payments.map(payment => <h1 key={payment.id}>{payment.merchant_name}</h1>)}
+                {payments.map(payment => (
+                    <li key={payment.id}>
+                        <Link to={`/payment/${payment.id}`}>
+                            {payment.merchant_name}
+                        </Link>
+                    </li>
+                ))}
             </ul>
+            <PaymentForm getPayments={()=>getPayments(customer.id)} customerId={customer.id}/>
         </>
     )
 }
