@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 
 const CustomerDetail = props => {
     const [customer, setCustomer] = useState([])
+    const [payments, setPayments] = useState([])
 
     const getCustomer = customerId => {
         fetch(`http://localhost:8000/customer/${customerId}`, {
@@ -15,6 +16,21 @@ const CustomerDetail = props => {
             .then(response => response.json())
             .then(customer => {
                 setCustomer(customer)
+            })
+    }
+
+    const getPayments = (customerId) => {
+        fetch(`http://localhost:8000/payment?customer_id=${customerId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(payments => {
+                setPayments(payments)
             })
     }
 
@@ -32,13 +48,11 @@ const CustomerDetail = props => {
 
     useEffect(() => {
         getCustomer(props.customerId)
+        getPayments(props.customerId)
     }, [props.customerId])
 
     return (
         <>
-            <h3>Name:{customer.name}</h3>
-            <h5>Phone: {customer.phone}</h5>
-            <p>City: {customer.city}</p>
             <button
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
@@ -56,6 +70,13 @@ const CustomerDetail = props => {
             >
                 Edit
             </button>
+            <h3>Name:{customer.name}</h3>
+            <h5>Phone: {customer.phone}</h5>
+            <p>City: {customer.city}</p>
+            <p>Payment Types</p>
+            <ul>
+                {payments.map(payment => <h1 key={payment.id}>{payment.merchant_name}</h1>)}
+            </ul>
         </>
     )
 }
