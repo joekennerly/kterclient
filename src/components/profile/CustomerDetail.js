@@ -5,6 +5,7 @@ import PaymentForm from './PaymentForm'
 const CustomerDetail = props => {
     const [customer, setCustomer] = useState([])
     const [payments, setPayments] = useState([])
+    const [orders, setOrders] = useState([])
 
     const getCustomer = customerId => {
         fetch(`http://localhost:8000/customer/${customerId}`, {
@@ -36,6 +37,21 @@ const CustomerDetail = props => {
             })
     }
 
+    const getOrders = customerId => {
+        fetch(`http://localhost:8000/order?customer_id=${customerId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(orders => {
+                setOrders(orders)
+            })
+    }
+
     const deleteItem = id => {
         fetch(`http://localhost:8000/customer/${id}`, {
             method: "DELETE",
@@ -49,6 +65,7 @@ const CustomerDetail = props => {
     useEffect(() => {
         getCustomer(props.customerId)
         getPayments(props.customerId)
+        getOrders(props.customerId)
     }, [props.customerId])
 
     return (
@@ -61,14 +78,6 @@ const CustomerDetail = props => {
                 }}
             >
                 Delete
-            </button>
-            <button
-                onClick={() => {
-                    console.log(customer.id, "button clicked")
-                    props.history.push(`/customer/${customer.id}/edit`)
-                }}
-            >
-                Edit
             </button>
             <h3>Name:{customer.name}</h3>
             <h5>Phone: {customer.phone}</h5>
@@ -84,6 +93,16 @@ const CustomerDetail = props => {
                 ))}
             </ul>
             <PaymentForm getPayments={()=>getPayments(customer.id)} customerId={customer.id}/>
+            <p>Customer's Orders</p>
+            <ul>
+                {orders.map(order => (
+                    <li key={order.id}>
+                        <Link to={`/order/${order.id}`}>
+                            {order.location}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </>
     )
 }

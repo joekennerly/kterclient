@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import "./Profile.css"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
-import EventForm from "./EventForm"
 import CustomerList from "./CustomerList"
 import CustomerForm from "./CustomerForm"
 
@@ -67,7 +66,6 @@ export default function Profile() {
             <ProductList products={products} getProducts={getProducts} />
             <CustomerForm getCustomers={getCustomers} />
             <CustomerList customers={customers} getCustomers={getCustomers} />
-            <EventForm />
         </>
     )
 }
