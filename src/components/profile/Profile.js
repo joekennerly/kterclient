@@ -22,7 +22,7 @@ export default function Profile() {
             })
 
     const getProducts = () =>
-        fetch("http://localhost:8000/product", {
+        fetch("http://localhost:8000/product?vendor=current", {
             method: "GET",
             headers: {
                 Accept: "application/json",
