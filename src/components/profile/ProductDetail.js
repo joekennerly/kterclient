@@ -27,7 +27,7 @@ const ProductDetail = props => {
                     "kter_token"
                 )}`
             }
-        })
+        }).then(()=>props.history.push('/profile'))
     }
 
     useEffect(() => {
