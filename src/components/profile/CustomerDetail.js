@@ -27,7 +27,7 @@ const CustomerDetail = props => {
                     "kter_token"
                 )}`
             }
-        })
+        }).then(()=>props.history.push('/profile'))
     }
 
     useEffect(() => {
@@ -43,7 +43,6 @@ const CustomerDetail = props => {
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
                         deleteItem(customer.id)
-                        props.history.push('/profile')
                     }
                 }}
             >
