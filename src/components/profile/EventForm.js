@@ -1,56 +1,41 @@
-import React, { useRef, useState, useEffect } from "react"
+import React, { useRef } from "react"
 import "./Profile.css"
 
-const ProductForm = (props) => {
-    //Get category resource and set it as category state
-    const [category, setCategory] = useState([])
-    const getCategory = () => {
-        fetch('http://localhost:8000/category', {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("kter_token")}`
-            }
-        })
-            .then(response => response.json())
-            .then((categories) => {
-                setCategory(categories)
-            })
-    }
-    useEffect(getCategory, [])
-
+const EventForm = props => {
     //Input Refs
-    const name = useRef()
-    const productcategory = useRef()
-    const price = useRef()
-    const description = useRef()
+    const start = useRef()
+    const end = useRef()
+    const location = useRef()
 
     //Post a product, then set refs back to ""
     const postProduct = () => {
-        if (name.current.value === "" || productcategory.current.value === "0" || price.current.value === "" || description.current.value === "") {
+        if (
+            start.current.value === "" ||
+            end.current.value === "" ||
+            location.current.value === ""
+        ) {
             window.alert("Please fill out all form fields")
-        }
-        else {
-            fetch('http://localhost:8000/product', {
-            "method": "POST",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("kter_token")}`
-            },
-            body: JSON.stringify({
-                "name": name.current.value,
-                "productcategory_id": +productcategory.current.value,
-                "price": price.current.value,
-                "description": description.current.value
+        } else {
+            fetch("http://localhost:8000/order", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${localStorage.getItem("kter_token")}`
+                },
+                body: JSON.stringify({
+                    customer_id: +props.customerId,
+                    start: start.current.value,
+                    end: end.current.value,
+                    location: location.current.value
+                })
             })
-            }).then(() => {
-            name.current.value = ""
-            productcategory.current.value = "0"
-            price.current.value = ""
-            description.current.value = ""
-        }).then(props.getProducts)
+                .then(() => {
+                    start.current.value = ""
+                    end.current.value = ""
+                    location.current.value = ""
+                })
+                .then(props.getOrders)
         }
     }
 
@@ -60,33 +45,20 @@ const ProductForm = (props) => {
             <h3>Add an event</h3>
             <input
                 required
-                ref={name}
-                type="text"
+                ref={start}
+                type="date"
                 placeholder="name"
                 autoFocus
             />
-            <select
-                ref={productcategory}
-                name="category"
-                required
-                defaultValue="0"
-            >
-                <option value='0'>
-                    Select Category
-                </option>
-                {category.map(category => {
-                    return <option key={category.id} value={category.id}>{category.name}</option>
-                })}
-            </select>
-            <input required ref={price} type="number" placeholder="price" />
+            <input required ref={end} type="date" placeholder="end" />
             <input
                 required
-                ref={description}
+                ref={location}
                 type="text"
-                placeholder="description"
+                placeholder="location"
             />
             <button onClick={postProduct}>Submit</button>
         </div>
     )
 }
-export default ProductForm
+export default EventForm

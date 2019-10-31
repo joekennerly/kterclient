@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import PaymentForm from './PaymentForm'
+import PaymentForm from "./PaymentForm"
+import EventList from "./EventList"
+import EventForm from "./EventForm"
 
 const CustomerDetail = props => {
     const [customer, setCustomer] = useState([])
@@ -83,26 +85,20 @@ const CustomerDetail = props => {
             <h5>Phone: {customer.phone}</h5>
             <p>City: {customer.city}</p>
             <p>Payment Types</p>
-            <ul>
-                {payments.map(payment => (
-                    <li key={payment.id}>
-                        <Link to={`/payment/${payment.id}`}>
-                            {payment.merchant_name}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-            <PaymentForm getPayments={()=>getPayments(customer.id)} customerId={customer.id}/>
+            {payments.map(payment => (
+                <div key={payment.id}>
+                    <Link to={`/payment/${payment.id}`}>
+                        {payment.merchant_name}
+                    </Link>
+                </div>
+            ))}
+            <PaymentForm
+                getPayments={() => getPayments(customer.id)}
+                customerId={customer.id}
+            />
             <p>Customer's Orders</p>
-            <ul>
-                {orders.map(order => (
-                    <li key={order.id}>
-                        <Link to={`/order/${order.id}`}>
-                            {order.location}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            <EventList orders={orders} />
+            <EventForm customerId={customer.id} getOrders={() => getOrders(customer.id)}/>
         </>
     )
 }

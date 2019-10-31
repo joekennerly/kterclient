@@ -36,7 +36,7 @@ const Register = props => {
 
         register(newUser).then(() => {
             props.history.push({
-                pathname: "/"
+                pathname: "/profile"
             })
         })
     }
