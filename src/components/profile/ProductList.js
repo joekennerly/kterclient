@@ -5,7 +5,7 @@ export default function ProductList(props) {
     return (
         <>
             {props.products.map(product => (
-                <Link to={`/product/${product.id}`}>{product.name}</Link>
+                <Link key={product.id} to={`/product/${product.id}`}>{product.name}</Link>
             ))}
         </>
     )
