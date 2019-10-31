@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
 
 const EventDetail = props => {
     const [order, setOrders] = useState([])
     const [products, setProducts] = useState([])
     const [payments, setPayments] = useState([])
+
+    const payment = useRef()
 
     const getOrders = eventId => {
         fetch(`http://localhost:8000/order/${eventId}`, {
@@ -61,8 +63,23 @@ const EventDetail = props => {
         }).then(() => props.history.push("/profile"))
     }
 
-    const handleConfirm = () => {
-        console.log("click")
+    const handleConfirm = orderId => {
+        console.log("click", orderId, +payment.current.value)
+        if (payment.current.value === "0") {
+            window.alert("Please select a payment")
+        } else {
+            fetch(`http://localhost:8000/order/${orderId}`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${localStorage.getItem("kter_token")}`
+                },
+                body: JSON.stringify({ payment_id: +payment.current.value })
+            }).then(() => {
+                payment.current.value = "0"
+            })
+        }
     }
 
     useEffect(() => {
@@ -85,13 +102,30 @@ const EventDetail = props => {
                 Delete Order
             </button>
             {products.map(product => {
-                return <div key={product.id}>{product.product.name} {product.product.price}</div>
+                return (
+                    <div key={product.id}>
+                        {product.product.name} {product.product.price}
+                    </div>
+                )
             })}
             <h3>Select Payment</h3>
-            <select>
-                {payments.map(payment => <option key={payment.id}>{payment.merchant_name}</option>)}
+            <select ref={payment} name="payment" required defaultValue="0">
+                <option value="0">Select Payment</option>
+                {payments.map(payment => {
+                    return (
+                        <option key={payment.id} value={payment.id}>
+                            {payment.merchant_name}
+                        </option>
+                    )
+                })}
             </select>
-            <button onClick={handleConfirm}>Confirm Order</button>
+            <button
+                onClick={() => {
+                    handleConfirm(order.id, payment)
+                }}
+            >
+                Confirm Order
+            </button>
             <h3>Add Products</h3>
             <EventProducts
                 orderId={order.id}
