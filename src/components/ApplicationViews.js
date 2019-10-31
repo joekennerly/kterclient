@@ -70,14 +70,16 @@ const ApplicationViews = () => {
             />
             <Route
                 exact
-                path="/order/:eventId(\d+)"
+                path="/order/:eventId(\d+)/:customerId(\d+)"
                 render={props => {
                     const eventId = +props.match.params.eventId
+                    const customerId = +props.match.params.customerId
                     return (
                         <EventDetail
                             {...props}
                             products={products}
                             eventId={eventId}
+                            customerId={customerId}
                         />
                     )
                 }}

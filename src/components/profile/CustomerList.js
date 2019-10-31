@@ -5,7 +5,7 @@ export default function CustomerList(props) {
     return (
         <>
             {props.customers.map(customer => (
-                <Link to={`/customer/${customer.id}`}>{customer.name}</Link>
+                <Link key={customer.id} to={`/customer/${customer.id}`}>{customer.name}</Link>
             ))}
         </>
     )
