@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import EventProducts from "./EventProducts"
-import ProductList from "./ProductList"
 
 const EventDetail = props => {
     const [order, setOrders] = useState([])
