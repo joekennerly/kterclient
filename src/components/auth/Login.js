@@ -23,7 +23,7 @@ const Login = props => {
 
         login(credentials).then(() => {
             props.history.push({
-                pathname: "/"
+                pathname: "/profile"
             })
         })
     }

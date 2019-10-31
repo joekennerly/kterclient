@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import PaymentForm from './PaymentForm'
+import PaymentForm from "./PaymentForm"
+import EventList from "./EventList"
+import EventForm from "./EventForm"
 
 const CustomerDetail = props => {
     const [customer, setCustomer] = useState([])
     const [payments, setPayments] = useState([])
+    const [orders, setOrders] = useState([])
 
     const getCustomer = customerId => {
         fetch(`http://localhost:8000/customer/${customerId}`, {
@@ -36,6 +39,21 @@ const CustomerDetail = props => {
             })
     }
 
+    const getOrders = customerId => {
+        fetch(`http://localhost:8000/order?customer_id=${customerId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(orders => {
+                setOrders(orders)
+            })
+    }
+
     const deleteItem = id => {
         fetch(`http://localhost:8000/customer/${id}`, {
             method: "DELETE",
@@ -49,6 +67,7 @@ const CustomerDetail = props => {
     useEffect(() => {
         getCustomer(props.customerId)
         getPayments(props.customerId)
+        getOrders(props.customerId)
     }, [props.customerId])
 
     return (
@@ -62,28 +81,24 @@ const CustomerDetail = props => {
             >
                 Delete
             </button>
-            <button
-                onClick={() => {
-                    console.log(customer.id, "button clicked")
-                    props.history.push(`/customer/${customer.id}/edit`)
-                }}
-            >
-                Edit
-            </button>
             <h3>Name:{customer.name}</h3>
             <h5>Phone: {customer.phone}</h5>
             <p>City: {customer.city}</p>
             <p>Payment Types</p>
-            <ul>
-                {payments.map(payment => (
-                    <li key={payment.id}>
-                        <Link to={`/payment/${payment.id}`}>
-                            {payment.merchant_name}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-            <PaymentForm getPayments={()=>getPayments(customer.id)} customerId={customer.id}/>
+            {payments.map(payment => (
+                <div key={payment.id}>
+                    <Link to={`/payment/${payment.id}`}>
+                        {payment.merchant_name}
+                    </Link>
+                </div>
+            ))}
+            <PaymentForm
+                getPayments={() => getPayments(customer.id)}
+                customerId={customer.id}
+            />
+            <p>Customer's Orders</p>
+            <EventList orders={orders} />
+            <EventForm customerId={customer.id} getOrders={() => getOrders(customer.id)}/>
         </>
     )
 }
