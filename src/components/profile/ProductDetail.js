@@ -51,7 +51,6 @@ const ProductDetail = props => {
             </button>
             <button
                 onClick={() => {
-                    console.log(product.id, "button clicked")
                     props.history.push(`/product/${product.id}/edit`)
                 }}
             >

@@ -30,6 +30,7 @@ const ApplicationViews = () => {
         getProducts()
     }, [])
 
+
     return (
         <>
             <Route path="/register" render={props => <Register />} />
@@ -49,7 +50,8 @@ const ApplicationViews = () => {
                 path="/product/:productId(\d+)/edit"
                 render={props => {
                     const productId = +props.match.params.productId
-                    return <ProductEdit {...props} productId={productId} />
+                    const prod = products.filter(product=>product.id === productId)
+                    return <ProductEdit {...props} product={prod} productId={productId} />
                 }}
             />
             <Route
