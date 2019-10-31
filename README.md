@@ -1,6 +1,6 @@
-# KTER React
+# KTER React Client
 
-Created using React
+Created using React to request data from the [KTER API](https://github.com/joekennerly/kterapi)
 
 To contribute to this project, clone it down and open it up in your terminal. Now install dependencies with this command:
 ```
