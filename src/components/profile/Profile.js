@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import "./Profile.css"
+import { Link } from "react-router-dom"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
 import CustomerList from "./CustomerList"
@@ -9,6 +10,7 @@ export default function Profile() {
     const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
+    const [confirmed, setConfirmed] = useState([])
 
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
@@ -49,10 +51,24 @@ export default function Profile() {
                 setCustomers(customers)
             })
 
+    const getConfirmed = () =>
+        fetch("http://localhost:8000/order?payment", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(confirmed => {
+                setConfirmed(confirmed)
+            })
+
     useEffect(() => {
         getUser()
         getProducts()
         getCustomers()
+        getConfirmed()
     }, [])
 
     return (
@@ -61,6 +77,12 @@ export default function Profile() {
                 <section key={vendor.id} id="profile">
                     <h1>Welcome {vendor.user.first_name}</h1>
                 </section>
+            ))}
+            <h3>Confirmed Orders</h3>
+            {confirmed.map(order => (
+                <Link key={order.id} to={`/order/${order.id}/${order.customer_id}`}>
+                    {order.location} {order.start.slice(0,10)}
+                </Link>
             ))}
             <ProductForm getProducts={getProducts} />
             <ProductList products={products} getProducts={getProducts} />

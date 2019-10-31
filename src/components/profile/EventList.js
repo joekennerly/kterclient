@@ -6,7 +6,7 @@ export default function EventList(props) {
         <>
             {props.orders.map(order => (
                 <div key={order.id}>
-                    <Link to={`/order/${order.id}`}>{order.location}</Link>
+                    <Link to={`/order/${order.id}/${props.customer.id}`}>{order.location}</Link>
                 </div>
             ))}
         </>

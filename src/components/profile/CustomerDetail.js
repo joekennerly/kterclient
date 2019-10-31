@@ -97,7 +97,7 @@ const CustomerDetail = props => {
                 customerId={customer.id}
             />
             <p>Customer's Orders</p>
-            <EventList orders={orders} />
+            <EventList orders={orders} customer={customer} />
             <EventForm customerId={customer.id} getOrders={() => getOrders(customer.id)}/>
         </>
     )

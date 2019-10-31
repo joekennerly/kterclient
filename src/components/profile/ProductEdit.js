@@ -4,6 +4,7 @@ import "./Profile.css"
 const ProductEdit = (props) => {
     //Get category resource and set it as category state
     const [category, setCategory] = useState([])
+    const [product, setProduct] = useState([])
     const getCategory = () => {
         fetch('http://localhost:8000/category', {
             "method": "GET",
@@ -13,18 +14,40 @@ const ProductEdit = (props) => {
                 "Authorization": `Token ${localStorage.getItem("kter_token")}`
             }
         })
-            .then(response => response.json())
-            .then((categories) => {
-                setCategory(categories)
-            })
+        .then(response => response.json())
+        .then((categories) => {
+            setCategory(categories)
+        })
     }
-    useEffect(getCategory, [])
+
+    const getProduct = (productId) => {
+        fetch(`http://localhost:8000/product/${productId}`, {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+        .then(response => response.json())
+        .then((product) => {
+            setProduct(product)
+        })
+    }
+
+    // const getProduct = () => setProduct(props.product)
+
+    useEffect(() => {
+        getCategory()
+        getProduct(props.productId)
+    }, [props.productId])
 
     //Input Refs
     const name = useRef()
     const productcategory = useRef()
     const price = useRef()
     const description = useRef()
+
 
     //Post a product, then set refs back to ""
     const postProduct = (id) => {
@@ -53,7 +76,7 @@ const ProductEdit = (props) => {
         }).then(()=>props.history.push('/profile'))
         }
     }
-    console.log(props.productId)
+
 
     //Render Product form
     return (
@@ -63,28 +86,32 @@ const ProductEdit = (props) => {
                 required
                 ref={name}
                 type="text"
-                placeholder="name"
+                defaultValue={product.name}
                 autoFocus
             />
             <select
                 ref={productcategory}
                 name="category"
                 required
-                defaultValue="0"
+                value={product.productcategory_id}
             >
-                <option value='0'>
+                <option>
                     Select Category
                 </option>
                 {category.map(category => {
                     return <option key={category.id} value={category.id}>{category.name}</option>
                 })}
             </select>
-            <input required ref={price} type="number" placeholder="price" />
+            <input
+                required
+                ref={price}
+                type="number"
+                defaultValue={product.price} />
             <input
                 required
                 ref={description}
                 type="text"
-                placeholder="description"
+                defaultValue={product.description}
             />
             <button onClick={()=>postProduct(props.productId)}>Submit</button>
         </div>
