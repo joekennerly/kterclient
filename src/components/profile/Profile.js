@@ -84,10 +84,16 @@ export default function Profile() {
                     {order.location} {order.start.slice(0,10)}
                 </Link>
             ))}
-            <ProductForm getProducts={getProducts} />
-            <ProductList products={products} getProducts={getProducts} />
-            <CustomerForm getCustomers={getCustomers} />
-            <CustomerList customers={customers} getCustomers={getCustomers} />
+            <section className="manage">
+                <article className="sub-manage">
+                <ProductForm getProducts={getProducts} />
+                <ProductList products={products} getProducts={getProducts} />
+                </article>
+                <article className="sub-manage">
+                <CustomerForm getCustomers={getCustomers} />
+                <CustomerList customers={customers} getCustomers={getCustomers} />
+                </article>
+            </section>
         </>
     )
 }

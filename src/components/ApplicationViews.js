@@ -8,11 +8,13 @@ import Home from "./home/Home"
 import ProductDetail from "../components/profile/ProductDetail"
 import ProductEdit from "../components/profile/ProductEdit"
 import CustomerDetail from "../components/profile/CustomerDetail"
+import CustomerEdit from "../components/profile/CustomerEdit"
 import PaymentDetail from "../components/profile/PaymentDetail"
 import EventDetail from "../components/profile/EventDetail"
 
 const ApplicationViews = () => {
     const [products, setProducts] = useState([])
+    const [customers, setCustomers] = useState([])
     const getProducts = () =>
         fetch("http://localhost:8000/product?vendor=current", {
             method: "GET",
@@ -24,6 +26,18 @@ const ApplicationViews = () => {
             .then(response => response.json())
             .then(products => {
                 setProducts(products)
+            })
+    const getCustomers = () =>
+        fetch("http://localhost:8000/customer?vendor=current", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(customers => {
+                setCustomers(customers)
             })
 
     useEffect(() => {
@@ -60,6 +74,15 @@ const ApplicationViews = () => {
                 render={props => {
                     const customerId = +props.match.params.customerId
                     return <CustomerDetail {...props} customerId={customerId} />
+                }}
+            />
+            <Route
+                exact
+                path="/customer/:customerId(\d+)/edit"
+                render={props => {
+                    const customerId = +props.match.params.customerId
+                    const cust = customers.filter(customer=>customer.id === customerId)
+                    return <CustomerEdit {...props} customer={cust} customerId={customerId} />
                 }}
             />
             <Route
