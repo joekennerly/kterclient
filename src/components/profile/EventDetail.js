@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
+import PaymentForm from "./PaymentForm"
 
 const EventDetail = props => {
     const [order, setOrders] = useState([])
@@ -60,11 +61,19 @@ const EventDetail = props => {
                 Accept: "application/json",
                 Authorization: `Token ${localStorage.getItem("kter_token")}`
             }
-        }).then(() => props.history.push("/profile"))
+        }).then(() => props.history.push(`/customer/${props.customerId}`))
+    }
+    const removeProduct = (opId) => {
+        fetch(`http://localhost:8000/orderproduct/${opId}`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        }).then(() => getProducts(order.id))
     }
 
     const handleConfirm = orderId => {
-        console.log("click", orderId, +payment.current.value)
         if (payment.current.value === "0") {
             window.alert("Please select a payment")
         } else {
@@ -95,7 +104,6 @@ const EventDetail = props => {
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
                         deleteItem(order.id)
-                        props.history.push("/profile")
                     }
                 }}
             >
@@ -105,6 +113,7 @@ const EventDetail = props => {
                 return (
                     <div key={product.id}>
                         {product.product.name} {product.product.price}
+                        <button onClick={()=>removeProduct(product.id)}>-</button>
                     </div>
                 )
             })}
@@ -119,6 +128,7 @@ const EventDetail = props => {
                     )
                 })}
             </select>
+            <PaymentForm />
             <button
                 onClick={() => {
                     handleConfirm(order.id, payment)

@@ -42,6 +42,7 @@ const ApplicationViews = () => {
 
     useEffect(() => {
         getProducts()
+        getCustomers()
     }, [])
 
 
