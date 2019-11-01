@@ -60,11 +60,10 @@ const EventDetail = props => {
                 Accept: "application/json",
                 Authorization: `Token ${localStorage.getItem("kter_token")}`
             }
-        }).then(() => props.history.push("/profile"))
+        }).then(() => props.history.push(`/customer/${props.customerId}`))
     }
 
     const handleConfirm = orderId => {
-        console.log("click", orderId, +payment.current.value)
         if (payment.current.value === "0") {
             window.alert("Please select a payment")
         } else {
@@ -95,7 +94,6 @@ const EventDetail = props => {
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
                         deleteItem(order.id)
-                        props.history.push("/profile")
                     }
                 }}
             >

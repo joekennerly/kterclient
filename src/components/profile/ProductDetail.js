@@ -43,7 +43,6 @@ const ProductDetail = props => {
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
                         deleteItem(product.id)
-                        props.history.push('/profile')
                     }
                 }}
             >

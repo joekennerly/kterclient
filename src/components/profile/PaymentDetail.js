@@ -27,7 +27,7 @@ const PaymentDetail = props => {
                     "kter_token"
                 )}`
             }
-        }).then(()=>props.history.push('/profile'))
+        }).then(()=>props.history.push(`/customer/${props.customerId}`))
     }
 
     useEffect(() => {
@@ -43,7 +43,6 @@ const PaymentDetail = props => {
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
                         deleteItem(payment.id)
-                        props.history.push('/profile')
                     }
                 }}
             >
