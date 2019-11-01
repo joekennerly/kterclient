@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
+import PaymentForm from "./PaymentForm"
 
 const EventDetail = props => {
     const [order, setOrders] = useState([])
@@ -62,6 +63,15 @@ const EventDetail = props => {
             }
         }).then(() => props.history.push(`/customer/${props.customerId}`))
     }
+    const removeProduct = (opId) => {
+        fetch(`http://localhost:8000/orderproduct/${opId}`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        }).then(() => getProducts(order.id))
+    }
 
     const handleConfirm = orderId => {
         if (payment.current.value === "0") {
@@ -103,6 +113,7 @@ const EventDetail = props => {
                 return (
                     <div key={product.id}>
                         {product.product.name} {product.product.price}
+                        <button onClick={()=>removeProduct(product.id)}>-</button>
                     </div>
                 )
             })}
@@ -117,6 +128,7 @@ const EventDetail = props => {
                     )
                 })}
             </select>
+            <PaymentForm />
             <button
                 onClick={() => {
                     handleConfirm(order.id, payment)
