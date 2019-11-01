@@ -5,10 +5,10 @@ import ApplicationViews from "./ApplicationViews"
 import Navbar from "./nav/Navbar"
 
 const App = () => (
-    <header className="App-header">
+    <section className="App-header">
         <Route render={props => <Navbar {...props} />} />
-        <ApplicationViews />
-    </header>
+        <span className="App-views"><ApplicationViews /></span>
+    </section>
 )
 
 export default App
