@@ -81,6 +81,13 @@ const CustomerDetail = props => {
             >
                 Delete
             </button>
+            <button
+                onClick={() => {
+                    props.history.push(`/customer/${customer.id}/edit`)
+                }}
+            >
+                Edit
+            </button>
             <h3>Name:{customer.name}</h3>
             <h5>Phone: {customer.phone}</h5>
             <p>City: {customer.city}</p>

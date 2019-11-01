@@ -2,20 +2,22 @@ import React from "react"
 import { Link } from "react-router-dom"
 import "./Navbar.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import { Menu } from 'semantic-ui-react'
 
 const Navbar = () => {
     const { isAuthenticated, logout } = useSimpleAuth()
     return (
-        <div id="Navbar">
-            <Link className="nav-link" to="/">
+        <Menu inverted>
+            <Menu.Item as={Link} className="nav-link" to="/">
                 Home
-            </Link>
+            </Menu.Item>
             {isAuthenticated() ? (
                 <>
-                    <Link className="nav-link" to="/profile">
+                    <Menu.Item as={Link}className="nav-link" to="/profile">
                         Profile
-                    </Link>
-                    <Link
+                    </Menu.Item>
+                    <Menu.Menu position='right'>
+                    <Menu.Item as={Link}
                         to="/"
                         className="nav-link fakeLink"
                         onClick={() => {
@@ -23,19 +25,22 @@ const Navbar = () => {
                         }}
                     >
                         Logout
-                    </Link>
+                    </Menu.Item>
+                    </Menu.Menu>
                 </>
             ) : (
                 <>
-                    <Link className="nav-link" to="/login">
+                    <Menu.Menu position='right'>
+                    <Menu.Item as={Link} className="nav-link" to="/login">
                         Login
-                    </Link>
-                    <Link className="nav-link" to="/register">
+                    </Menu.Item>
+                    <Menu.Item as={Link}className="nav-link" to="/register">
                         Register
-                    </Link>
+                    </Menu.Item>
+                    </Menu.Menu>
                 </>
             )}
-        </div>
+        </Menu>
     )
 }
 export default Navbar

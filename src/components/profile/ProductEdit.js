@@ -35,8 +35,6 @@ const ProductEdit = (props) => {
         })
     }
 
-    // const getProduct = () => setProduct(props.product)
-
     useEffect(() => {
         getCategory()
         getProduct(props.productId)
@@ -73,7 +71,7 @@ const ProductEdit = (props) => {
             productcategory.current.value = "0"
             price.current.value = ""
             description.current.value = ""
-        }).then(()=>props.history.push('/profile'))
+        }).then(()=>props.history.push(`/product/${product.id}`))
         }
     }
 
@@ -113,7 +111,7 @@ const ProductEdit = (props) => {
                 type="text"
                 defaultValue={product.description}
             />
-            <button onClick={()=>postProduct(props.productId)}>Submit</button>
+            <button onClick={()=>postProduct(product.id)}>Submit</button>
         </div>
     )
 }

@@ -5,3 +5,13 @@
     display:flex;
     flex-flow:column wrap;
 }
+
+.manage {
+    display:flex;
+    flex-flow:row wrap;
+}
+
+.sub-manage {
+    display:flex;
+    flex-flow:column wrap;
+}

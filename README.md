@@ -6,7 +6,7 @@ To contribute to this project, clone it down and open it up in your terminal. No
 ```
 yarn install
 ```
-## **DO NOT USE `npm install`**
+### **DO NOT USE `npm install`**
 
 After installs, you may run either
 ```
