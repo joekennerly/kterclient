@@ -97,6 +97,12 @@ const EventDetail = props => {
         getPayments(props.customerId)
     }, [props.eventId, props.customerId])
 
+    const total = () => {
+        let total = 0
+        products.forEach(product=>total+= +product.product.price)
+        return total
+    }
+
     return (
         <>
             <h3>{order.location}</h3>
@@ -117,6 +123,7 @@ const EventDetail = props => {
                     </div>
                 )
             })}
+            <h1>Total Price: ${total()}</h1>
             <h3>Select Payment</h3>
             <select ref={payment} name="payment" required defaultValue="0">
                 <option value="0">Select Payment</option>
