@@ -11,6 +11,7 @@ export default function Profile() {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
+    const red = { color: 'red'}
 
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
@@ -52,7 +53,7 @@ export default function Profile() {
             })
 
     const getConfirmed = () =>
-        fetch("http://localhost:8000/order?payment", {
+        fetch("http://localhost:8000/order", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -79,11 +80,17 @@ export default function Profile() {
                 </section>
             ))}
             <h3>Confirmed Orders</h3>
-            {confirmed.map(order => (
+            {confirmed.map(order => {
+                return (
                 <Link key={order.id} to={`/order/${order.id}/${order.customer_id}`}>
-                    {order.location} {order.start.slice(0,10)}
+                        {order.payment ? (
+                            <p style={red}>{order.location} {order.start.slice(0, 10)}</p>
+                        ) : (
+                            <p>{order.location} {order.start.slice(0, 10)}</p>
+                        )}
                 </Link>
-            ))}
+                )
+            })}
             <section className="manage">
                 <article className="sub-manage">
                 <ProductForm getProducts={getProducts} />

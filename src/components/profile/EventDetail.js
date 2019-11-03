@@ -87,6 +87,7 @@ const EventDetail = props => {
                 body: JSON.stringify({ payment_id: +payment.current.value })
             }).then(() => {
                 payment.current.value = "0"
+                getOrders()
             })
         }
     }
@@ -106,6 +107,17 @@ const EventDetail = props => {
     return (
         <>
             <h3>{order.location}</h3>
+            {order.payment ? (
+                <p>Order Confirmed!</p>
+            ):(
+            <button
+                onClick={() => {
+                    handleConfirm(order.id, payment)
+                }}
+            >
+                Confirm Order
+            </button>
+            )}
             <button
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
@@ -135,14 +147,7 @@ const EventDetail = props => {
                     )
                 })}
             </select>
-            <PaymentForm />
-            <button
-                onClick={() => {
-                    handleConfirm(order.id, payment)
-                }}
-            >
-                Confirm Order
-            </button>
+            <PaymentForm getPayments={getPayments}/>
             <h3>Add Products</h3>
             <EventProducts
                 orderId={order.id}
