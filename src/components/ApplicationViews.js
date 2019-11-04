@@ -15,6 +15,7 @@ import EventDetail from "../components/profile/EventDetail"
 const ApplicationViews = () => {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
+    const [categories, setCategories] = useState([])
     const getProducts = () =>
         fetch("http://localhost:8000/product?vendor=current", {
             method: "GET",
@@ -27,6 +28,20 @@ const ApplicationViews = () => {
             .then(products => {
                 setProducts(products)
             })
+
+    const getCategories = () =>
+        fetch("http://localhost:8000/category", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(categories => {
+                setCategories(categories)
+            })
+
     const getCustomers = () =>
         fetch("http://localhost:8000/customer?vendor=current", {
             method: "GET",
@@ -43,6 +58,7 @@ const ApplicationViews = () => {
     useEffect(() => {
         getProducts()
         getCustomers()
+        getCategories()
     }, [])
 
 
@@ -51,7 +67,7 @@ const ApplicationViews = () => {
             <Route path="/register" render={props => <Register />} />
             <Route path="/login" render={props => <Login />} />
             <Route exact path="/" render={props => <Home />} />
-            <Route exact path="/profile" render={props => <Profile />} />
+            <Route exact path="/profile" render={props => <Profile categories={categories} getProducts={getProducts}/>} />
             <Route
                 exact
                 path="/product/:productId(\d+)"

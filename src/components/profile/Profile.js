@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import "./Profile.css"
 import { Link } from "react-router-dom"
 import Button from "@material-ui/core/Button"
@@ -8,16 +8,18 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
 import CustomerList from "./CustomerList"
 import CustomerForm from "./CustomerForm"
 
-export default function Profile() {
+export default function Profile(props) {
+    const { categories } = props
     const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
+
+    console.log(categories)
 
     const [open, setOpen] = React.useState(false)
 
@@ -77,6 +79,49 @@ export default function Profile() {
                 setConfirmed(confirmed)
             })
 
+    //Input Refs
+    const name = useRef()
+    const productcategory = useRef()
+    const price = useRef()
+    const description = useRef()
+
+    //Post a product, then set refs back to ""
+    const postProduct = () => {
+        if (
+            name.current.value === "" ||
+            productcategory.current.value === "0" ||
+            price.current.value === "" ||
+            description.current.value === ""
+        ) {
+            window.alert("Please fill out all form fields")
+        } else {
+            fetch("http://localhost:8000/product", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${localStorage.getItem("kter_token")}`
+                },
+                body: JSON.stringify({
+                    name: name.current.value,
+                    productcategory_id: +productcategory.current.value,
+                    price: price.current.value,
+                    description: description.current.value
+                })
+            })
+                .then(() => {
+                    name.current.value = ""
+                    productcategory.current.value = "0"
+                    price.current.value = ""
+                    description.current.value = ""
+                })
+                .then(() => {
+                    getProducts()
+                    handleClose()
+                })
+        }
+    }
+
     useEffect(() => {
         getUser()
         getProducts()
@@ -99,7 +144,7 @@ export default function Profile() {
                         to={`/order/${order.id}/${order.customer_id}`}
                     >
                         {order.payment ? (
-                            <p style={{ color: "red" }}>
+                            <p style={{ color: "springgreen" }}>
                                 {order.location} {order.start.slice(0, 10)}
                             </p>
                         ) : (
@@ -141,7 +186,47 @@ export default function Profile() {
                                 type="email"
                                 fullWidth
                             />
-                            <ProductForm handleClose={handleClose} getProducts={getProducts} />
+                            <div className="form">
+                                <h3>Add a product</h3>
+                                <input
+                                    required
+                                    ref={name}
+                                    type="text"
+                                    placeholder="name"
+                                    autoFocus
+                                />
+                                <select
+                                    ref={productcategory}
+                                    name="category"
+                                    required
+                                    defaultValue="0"
+                                >
+                                    <option value="0">Select Category</option>
+                                    {categories.map(category => {
+                                        return (
+                                            <option
+                                                key={category.id}
+                                                value={category.id}
+                                            >
+                                                {category.name}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                                <input
+                                    required
+                                    ref={price}
+                                    type="number"
+                                    placeholder="price"
+                                />
+                                <input
+                                    required
+                                    ref={description}
+                                    type="text"
+                                    placeholder="description"
+                                />
+                                <button onClick={postProduct}>Submit</button>
+                            </div>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">
