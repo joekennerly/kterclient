@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Navbar = props => {
+    const { user } = props
     const [anchorEl, setAnchorEl] = useState(null)
     const handleClick = event => {
         setAnchorEl(event.currentTarget)
@@ -80,6 +81,11 @@ const Navbar = props => {
                             Kter
                         </Typography>
                         {isAuthenticated() ? (
+                            <>{user.map(vendor => (
+                                <section key={vendor.id} id="profile">
+                                    Signed in as {vendor.user.first_name} {vendor.user.last_name}
+                                </section>
+                            ))}
                             <Button
                                 color="inherit"
                                     onClick={() => {
@@ -88,7 +94,7 @@ const Navbar = props => {
                                     }}
                             >
                                 Logout
-                            </Button>
+                            </Button></>
                         ) : (
                             <>
                             <Button

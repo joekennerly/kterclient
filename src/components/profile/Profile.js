@@ -31,17 +31,16 @@ const useStyles = makeStyles(theme => ({
 export default function Profile(props) {
     //API
     const { categories } = props
-    const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
 
-    //Material UI
+    const classes = useStyles()
+    //Add new product
     const [open, setOpen] = useState(false)
     const handleClickOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    const classes = useStyles()
     const [selected, setSelected] = useState("")
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
@@ -52,18 +51,10 @@ export default function Profile(props) {
     const handlePrice = e => setPrice(e.target.value)
     const handleDescription = e => setDescription(e.target.value)
 
-    const getUser = () =>
-        fetch("http://localhost:8000/vendor", {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                Authorization: `Token ${localStorage.getItem("kter_token")}`
-            }
-        })
-            .then(response => response.json())
-            .then(user => {
-                setUser(user)
-            })
+    //Add new customer
+    const [openCust, setOpenCust] = useState(false)
+    const handleCustOpen = () => setOpenCust(true)
+    const handleCustClose = () => setOpenCust(false)
 
     const getProducts = () =>
         fetch("http://localhost:8000/product?vendor=current", {
@@ -148,7 +139,6 @@ export default function Profile(props) {
     }
 
     useEffect(() => {
-        getUser()
         getProducts()
         getCustomers()
         getConfirmed()
@@ -156,12 +146,7 @@ export default function Profile(props) {
 
     return (
         <>
-            {user.map(vendor => (
-                <section key={vendor.id} id="profile">
-                    <h1>Welcome {vendor.user.first_name}</h1>
-                </section>
-            ))}
-            <h3>Confirmed Orders</h3>
+            <h3>Upcoming Events</h3>
             {confirmed.map(order => {
                 return (
                     <Link
@@ -183,7 +168,7 @@ export default function Profile(props) {
             <section className="manage">
                 <article className="sub-manage">
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         color="primary"
                         onClick={handleClickOpen}
                     >
@@ -268,7 +253,28 @@ export default function Profile(props) {
                     />
                 </article>
                 <article className="sub-manage">
-                    <CustomerForm getCustomers={getCustomers} />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleCustOpen}
+                    >
+                        Add New Customer
+                    </Button>
+                    <Dialog
+                        open={openCust}
+                        onClose={handleCustClose}
+                        aria-labelledby="form-dialog-title"
+                    >
+                        <DialogTitle id="form-dialog-title">
+                            Add A New Customer
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Once a customer is created, you may update their information with events and payment details
+                            </DialogContentText>
+                        <CustomerForm getCustomers={getCustomers} />
+                        </DialogContent>
+                    </Dialog>
                     <CustomerList
                         customers={customers}
                         getCustomers={getCustomers}
