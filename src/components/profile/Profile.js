@@ -29,17 +29,18 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Profile(props) {
+    //API
     const { categories } = props
     const [user, setUser] = useState([])
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
 
+    //Material UI
     const [open, setOpen] = useState(false)
     const handleClickOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    //Material UI
     const classes = useStyles()
     const [selected, setSelected] = useState("")
     const [name, setName] = useState("")
@@ -103,7 +104,7 @@ export default function Profile(props) {
                 setConfirmed(confirmed)
             })
 
-    //Post a product, then set refs back to ""
+    //Post a product, then set state back to ""
     const postProduct = () => {
         if (
             name === "" ||
@@ -208,25 +209,6 @@ export default function Profile(props) {
                                 id="name"
                                 label="Name of Product"
                                 type="text"
-                                fullWidth
-                            />
-                            <TextField
-                                required
-                                onChange={handlePrice}
-                                margin="dense"
-                                id="price"
-                                type="number"
-                                label="Price"
-                                fullWidth
-                            />
-                            <TextField
-                                required
-                                margin="dense"
-                                onChange={handleDescription}
-                                id="description"
-                                type="text"
-                                label="Description"
-                                fullWidth
                             />
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="open-select-label">
@@ -253,43 +235,23 @@ export default function Profile(props) {
                                     })}
                                 </Select>
                             </FormControl>
-                            {/* <input
-                                    required
-                                    ref={name}
-                                    type="text"
-                                    placeholder="name"
-                                    autoFocus
-                                /> */}
-                            {/* <select
-                                ref={productcategory}
-                                name="category"
+                            <TextField
                                 required
-                                defaultValue="0"
-                            >
-                                <option value="0">Select Category</option>
-                                {categories.map(category => {
-                                    return (
-                                        <option
-                                            key={category.id}
-                                            value={category.id}
-                                        >
-                                            {category.name}
-                                        </option>
-                                    )
-                                })}
-                            </select> */}
-                            {/* <input
-                                required
-                                ref={price}
+                                onChange={handlePrice}
+                                margin="dense"
+                                id="price"
                                 type="number"
-                                placeholder="price"
+                                label="Price"
                             />
-                            <input
+                            <TextField
                                 required
-                                ref={description}
+                                margin="dense"
+                                onChange={handleDescription}
+                                id="description"
                                 type="text"
-                                placeholder="description"
-                            /> */}
+                                label="Description"
+                                fullWidth
+                            />
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">
@@ -298,9 +260,6 @@ export default function Profile(props) {
                             <Button onClick={postProduct} color="primary">
                                 Submit
                             </Button>
-                            {/* <Button onClick={handleClose} color="primary">
-                                Subscribe
-                            </Button> */}
                         </DialogActions>
                     </Dialog>
                     <ProductList
