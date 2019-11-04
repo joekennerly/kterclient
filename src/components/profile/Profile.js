@@ -1,8 +1,13 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import "./Profile.css"
 import { Link } from "react-router-dom"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
+import { makeStyles } from "@material-ui/core/styles"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -12,6 +17,17 @@ import ProductList from "./ProductList"
 import CustomerList from "./CustomerList"
 import CustomerForm from "./CustomerForm"
 
+const useStyles = makeStyles(theme => ({
+    button: {
+        display: "block",
+        marginTop: theme.spacing(2)
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120
+    }
+}))
+
 export default function Profile(props) {
     const { categories } = props
     const [user, setUser] = useState([])
@@ -19,13 +35,21 @@ export default function Profile(props) {
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
 
-    console.log(categories)
-
-    const [open, setOpen] = React.useState(false)
-
+    const [open, setOpen] = useState(false)
     const handleClickOpen = () => setOpen(true)
-
     const handleClose = () => setOpen(false)
+
+    //Material UI
+    const classes = useStyles()
+    const [selected, setSelected] = useState("")
+    const [name, setName] = useState("")
+    const [price, setPrice] = useState("")
+    const [description, setDescription] = useState("")
+
+    const handleCategory = e => setSelected(e.target.value)
+    const handleName = e => setName(e.target.value)
+    const handlePrice = e => setPrice(e.target.value)
+    const handleDescription = e => setDescription(e.target.value)
 
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
@@ -79,22 +103,22 @@ export default function Profile(props) {
                 setConfirmed(confirmed)
             })
 
-    //Input Refs
-    const name = useRef()
-    const productcategory = useRef()
-    const price = useRef()
-    const description = useRef()
-
     //Post a product, then set refs back to ""
     const postProduct = () => {
         if (
-            name.current.value === "" ||
-            productcategory.current.value === "0" ||
-            price.current.value === "" ||
-            description.current.value === ""
+            name === "" ||
+            selected === "" ||
+            price === "" ||
+            description === ""
         ) {
             window.alert("Please fill out all form fields")
         } else {
+            console.log({
+                name: name,
+                productcategory_id: selected,
+                price: price,
+                description: description
+            })
             fetch("http://localhost:8000/product", {
                 method: "POST",
                 headers: {
@@ -103,17 +127,17 @@ export default function Profile(props) {
                     Authorization: `Token ${localStorage.getItem("kter_token")}`
                 },
                 body: JSON.stringify({
-                    name: name.current.value,
-                    productcategory_id: +productcategory.current.value,
-                    price: price.current.value,
-                    description: description.current.value
+                    name: name,
+                    productcategory_id: selected,
+                    price: price,
+                    description: description
                 })
             })
                 .then(() => {
-                    name.current.value = ""
-                    productcategory.current.value = "0"
-                    price.current.value = ""
-                    description.current.value = ""
+                    setName("")
+                    setSelected("")
+                    setPrice("")
+                    setDescription("")
                 })
                 .then(() => {
                     getProducts()
@@ -148,7 +172,7 @@ export default function Profile(props) {
                                 {order.location} {order.start.slice(0, 10)}
                             </p>
                         ) : (
-                            <p>
+                            <p style={{ color: "tomato" }}>
                                 {order.location} {order.start.slice(0, 10)}
                             </p>
                         )}
@@ -170,71 +194,113 @@ export default function Profile(props) {
                         aria-labelledby="form-dialog-title"
                     >
                         <DialogTitle id="form-dialog-title">
-                            Subscribe
+                            Add A New Product
                         </DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                                To subscribe to this website, please enter your
-                                email address here. We will send updates
-                                occasionally.
+                                This will be added to your product inventory.
                             </DialogContentText>
                             <TextField
                                 autoFocus
+                                required
+                                onChange={handleName}
                                 margin="dense"
                                 id="name"
-                                label="Email Address"
-                                type="email"
+                                label="Name of Product"
+                                type="text"
                                 fullWidth
                             />
-                            <div className="form">
-                                <h3>Add a product</h3>
-                                <input
+                            <TextField
+                                required
+                                onChange={handlePrice}
+                                margin="dense"
+                                id="price"
+                                type="number"
+                                label="Price"
+                                fullWidth
+                            />
+                            <TextField
+                                required
+                                margin="dense"
+                                onChange={handleDescription}
+                                id="description"
+                                type="text"
+                                label="Description"
+                                fullWidth
+                            />
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="open-select-label">
+                                    Category
+                                </InputLabel>
+                                <Select
+                                    labelId="open-select-label"
+                                    id="open-select"
+                                    value={selected}
+                                    onChange={handleCategory}
+                                >
+                                    <MenuItem disabled value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {categories.map(category => {
+                                        return (
+                                            <MenuItem
+                                                key={category.id}
+                                                value={category.id}
+                                            >
+                                                {category.name}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </FormControl>
+                            {/* <input
                                     required
                                     ref={name}
                                     type="text"
                                     placeholder="name"
                                     autoFocus
-                                />
-                                <select
-                                    ref={productcategory}
-                                    name="category"
-                                    required
-                                    defaultValue="0"
-                                >
-                                    <option value="0">Select Category</option>
-                                    {categories.map(category => {
-                                        return (
-                                            <option
-                                                key={category.id}
-                                                value={category.id}
-                                            >
-                                                {category.name}
-                                            </option>
-                                        )
-                                    })}
-                                </select>
-                                <input
-                                    required
-                                    ref={price}
-                                    type="number"
-                                    placeholder="price"
-                                />
-                                <input
-                                    required
-                                    ref={description}
-                                    type="text"
-                                    placeholder="description"
-                                />
-                                <button onClick={postProduct}>Submit</button>
-                            </div>
+                                /> */}
+                            {/* <select
+                                ref={productcategory}
+                                name="category"
+                                required
+                                defaultValue="0"
+                            >
+                                <option value="0">Select Category</option>
+                                {categories.map(category => {
+                                    return (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    )
+                                })}
+                            </select> */}
+                            {/* <input
+                                required
+                                ref={price}
+                                type="number"
+                                placeholder="price"
+                            />
+                            <input
+                                required
+                                ref={description}
+                                type="text"
+                                placeholder="description"
+                            /> */}
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">
                                 Cancel
                             </Button>
-                            <Button onClick={handleClose} color="primary">
-                                Subscribe
+                            <Button onClick={postProduct} color="primary">
+                                Submit
                             </Button>
+                            {/* <Button onClick={handleClose} color="primary">
+                                Subscribe
+                            </Button> */}
                         </DialogActions>
                     </Dialog>
                     <ProductList
