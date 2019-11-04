@@ -36,7 +36,7 @@ const Navbar = () => {
                             color="inherit"
                             aria-label="menu"
                         >
-                            {/* <MenuIcon /> */}
+                            <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
                             News
