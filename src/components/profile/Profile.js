@@ -11,7 +11,7 @@ export default function Profile() {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
-    const red = { color: 'red'}
+    const red = { color: "red" }
 
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
@@ -82,23 +82,36 @@ export default function Profile() {
             <h3>Confirmed Orders</h3>
             {confirmed.map(order => {
                 return (
-                <Link key={order.id} to={`/order/${order.id}/${order.customer_id}`}>
+                    <Link
+                        key={order.id}
+                        to={`/order/${order.id}/${order.customer_id}`}
+                    >
                         {order.payment ? (
-                            <p style={red}>{order.location} {order.start.slice(0, 10)}</p>
+                            <p style={red}>
+                                {order.location} {order.start.slice(0, 10)}
+                            </p>
                         ) : (
-                            <p>{order.location} {order.start.slice(0, 10)}</p>
+                            <p>
+                                {order.location} {order.start.slice(0, 10)}
+                            </p>
                         )}
-                </Link>
+                    </Link>
                 )
             })}
             <section className="manage">
                 <article className="sub-manage">
-                <ProductForm getProducts={getProducts} />
-                <ProductList products={products} getProducts={getProducts} />
+                    <ProductForm getProducts={getProducts} />
+                    <ProductList
+                        products={products}
+                        getProducts={getProducts}
+                    />
                 </article>
                 <article className="sub-manage">
-                <CustomerForm getCustomers={getCustomers} />
-                <CustomerList customers={customers} getCustomers={getCustomers} />
+                    <CustomerForm getCustomers={getCustomers} />
+                    <CustomerList
+                        customers={customers}
+                        getCustomers={getCustomers}
+                    />
                 </article>
             </section>
         </>
