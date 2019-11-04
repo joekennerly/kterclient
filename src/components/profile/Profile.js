@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import "./Profile.css"
 import { Link } from "react-router-dom"
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
 import CustomerList from "./CustomerList"
