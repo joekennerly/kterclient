@@ -87,6 +87,7 @@ const EventDetail = props => {
                 body: JSON.stringify({ payment_id: +payment.current.value })
             }).then(() => {
                 payment.current.value = "0"
+                getOrders()
             })
         }
     }
@@ -97,9 +98,26 @@ const EventDetail = props => {
         getPayments(props.customerId)
     }, [props.eventId, props.customerId])
 
+    const total = () => {
+        let total = 0
+        products.forEach(product=>total+= +product.product.price)
+        return total
+    }
+
     return (
         <>
             <h3>{order.location}</h3>
+            {order.payment ? (
+                <p>Order Confirmed!</p>
+            ):(
+            <button
+                onClick={() => {
+                    handleConfirm(order.id, payment)
+                }}
+            >
+                Confirm Order
+            </button>
+            )}
             <button
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
@@ -117,6 +135,7 @@ const EventDetail = props => {
                     </div>
                 )
             })}
+            <h1>Total Price: ${total()}</h1>
             <h3>Select Payment</h3>
             <select ref={payment} name="payment" required defaultValue="0">
                 <option value="0">Select Payment</option>
@@ -128,14 +147,7 @@ const EventDetail = props => {
                     )
                 })}
             </select>
-            <PaymentForm />
-            <button
-                onClick={() => {
-                    handleConfirm(order.id, payment)
-                }}
-            >
-                Confirm Order
-            </button>
+            <PaymentForm getPayments={getPayments}/>
             <h3>Add Products</h3>
             <EventProducts
                 orderId={order.id}
