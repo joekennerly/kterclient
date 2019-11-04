@@ -4,7 +4,7 @@ import "./Profile.css"
 const ProductForm = (props) => {
     //Get category resource and set it as category state
     const [category, setCategory] = useState([])
-    const getCategory = () => {
+    const getCategory = () =>
         fetch('http://localhost:8000/category', {
             "method": "GET",
             "headers": {
@@ -17,7 +17,7 @@ const ProductForm = (props) => {
             .then((categories) => {
                 setCategory(categories)
             })
-    }
+
     useEffect(getCategory, [])
 
     //Input Refs
@@ -50,7 +50,10 @@ const ProductForm = (props) => {
             productcategory.current.value = "0"
             price.current.value = ""
             description.current.value = ""
-        }).then(props.getProducts)
+            }).then(() => {
+                props.getProducts()
+                props.handleClose()
+            })
         }
     }
 
