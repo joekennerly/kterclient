@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 
 //Commented code will be removed if image upload doesn't pan out
 //Can add from the backend, not sure how to send that in a post/put
+//https://coleruche.com/post/uploading-images-to-REST-API-backend-in-React-JS/
+//https://www.django-rest-framework.org/api-guide/parsers/
 
 const ProductDetail = props => {
     const [product, setProducts] = useState([])
