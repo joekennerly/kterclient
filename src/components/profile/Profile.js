@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import "./Profile.css"
 import { Link } from "react-router-dom"
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
 import CustomerList from "./CustomerList"
@@ -11,7 +12,6 @@ export default function Profile() {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [confirmed, setConfirmed] = useState([])
-    const red = { color: "red" }
 
     const getUser = () =>
         fetch("http://localhost:8000/vendor", {
@@ -87,7 +87,7 @@ export default function Profile() {
                         to={`/order/${order.id}/${order.customer_id}`}
                     >
                         {order.payment ? (
-                            <p style={red}>
+                            <p style={{ color: "red" }}>
                                 {order.location} {order.start.slice(0, 10)}
                             </p>
                         ) : (
