@@ -93,7 +93,7 @@ const ApplicationViews = () => {
                     return <CustomerDetail {...props} customerId={customerId} />
                 }}
             />
-            <Route
+            {/* <Route
                 exact
                 path="/customer/:customerId(\d+)/edit"
                 render={props => {
@@ -101,7 +101,7 @@ const ApplicationViews = () => {
                     const cust = customers.filter(customer=>customer.id === customerId)
                     return <CustomerEdit {...props} customer={cust} customerId={customerId} />
                 }}
-            />
+            /> */}
             <Route
                 exact
                 path="/payment/:paymentId(\d+)"
