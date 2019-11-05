@@ -3,7 +3,7 @@ import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
 
 const EventDetail = props => {
-  const { customer } = props
+  // const { customer } = props
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])

@@ -8,7 +8,7 @@ import Home from "./home/Home"
 import ProductDetail from "../components/profile/ProductDetail"
 import ProductEdit from "../components/profile/ProductEdit"
 import CustomerDetail from "../components/profile/CustomerDetail"
-import CustomerEdit from "../components/profile/CustomerEdit"
+// import CustomerEdit from "../components/profile/CustomerEdit"
 import PaymentDetail from "../components/profile/PaymentDetail"
 import EventDetail from "../components/profile/EventDetail"
 
