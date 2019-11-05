@@ -77,9 +77,9 @@ const CustomerForm = props => {
                     required
                     margin="dense"
                     onChange={handleCity}
-                    id="description"
+                    id="city"
                     type="text"
-                    label="Description"
+                    label="City"
                     fullWidth
                 />
             </DialogContent>

@@ -44,7 +44,7 @@ const Navbar = props => {
                             className={classes.menuButton}
                             color="inherit"
                             aria-label="menu"
-                        >
+                            >
                             <MenuIcon
                                 aria-controls="simple-menu"
                                 aria-haspopup="true"

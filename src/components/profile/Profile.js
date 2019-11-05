@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import "./Profile.css"
-import { Link } from "react-router-dom"
+import AllOrders from "./AllOrders"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -72,25 +72,7 @@ export default function Profile(props) {
 
     return (
         <>
-            <h3>Upcoming Events</h3>
-            {confirmed.map(order => {
-                return (
-                    <Link
-                        key={order.id}
-                        to={`/order/${order.id}/${order.customer_id}`}
-                    >
-                        {order.payment ? (
-                            <p style={{ color: "springgreen" }}>
-                                {order.location} {order.start.slice(0, 10)}
-                            </p>
-                        ) : (
-                            <p style={{ color: "tomato" }}>
-                                {order.location} {order.start.slice(0, 10)}
-                            </p>
-                        )}
-                    </Link>
-                )
-            })}
+            <AllOrders confirmed={confirmed}/>
             <section className="manage">
                 <article className="sub-manage">
                     <Button
