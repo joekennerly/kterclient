@@ -1,63 +1,103 @@
-import React, { useRef } from "react"
+import React, { useState } from "react"
 import "./Profile.css"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
 
-const CustomerForm = (props) => {
-    //Input Refs
-    const name = useRef()
-    const phone = useRef()
-    const city = useRef()
+const CustomerForm = props => {
+    const { handleCustClose, getCustomers } = props
 
-    //Post a product, then set refs back to ""
+    const [name, setName] = useState("")
+    const [phone, setPhone] = useState("")
+    const [city, setCity] = useState("")
+
+    const handleName = e => setName(e.target.value)
+    const handlePhone = e => setPhone(e.target.value)
+    const handleCity = e => setCity(e.target.value)
+
+    //Post a Customer, then set refs back to ""
     const postCustomer = () => {
-        if (name.current.value === "" || phone.current.value === "" || city.current.value === "") {
+        if (name === "" || phone === "" || city === "") {
             window.alert("Please fill out all form fields")
-        }
-        else {
-            fetch('http://localhost:8000/customer', {
-            "method": "POST",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("kter_token")}`
-            },
-            body: JSON.stringify({
-                "name": name.current.value,
-                "phone": phone.current.value,
-                "city": city.current.value,
+        } else {
+            console.log({ name, phone, city })
+            fetch("http://localhost:8000/customer", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${localStorage.getItem("kter_token")}`
+                },
+                body: JSON.stringify({
+                    name,
+                    phone,
+                    city
+                })
             })
-            }).then(() => {
-            name.current.value = ""
-            phone.current.value = ""
-            city.current.value = ""
-        }).then(props.getCustomers)
+                .then(() => {
+                    setName("")
+                    setPhone("")
+                    setCity("")
+                })
+                .then(getCustomers)
         }
     }
 
-    //Render Product form
+    //Render Customer form
     return (
-        <div className="form">
-            <h3>Add a customer</h3>
-            <input
-                required
-                ref={name}
-                type="text"
-                placeholder="name"
-                autoFocus
-            />
-            <input
-                required
-                ref={phone}
-                type="text"
-                placeholder="phone number"
-            />
-            <input
-                required
-                ref={city}
-                type="text"
-                placeholder="city"
-            />
-            <button onClick={postCustomer}>Submit</button>
-        </div>
+        <>
+            <DialogTitle id="form-dialog-title">Add A New Product</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    This will be added to your product inventory.
+                </DialogContentText>
+                <TextField
+                    autoFocus
+                    required
+                    onChange={handleName}
+                    margin="dense"
+                    id="name"
+                    label="Name of Customer"
+                    type="text"
+                    fullWidth
+                />
+                <TextField
+                    required
+                    onChange={handlePhone}
+                    margin="dense"
+                    id="price"
+                    type="text"
+                    label="Phone Number"
+                    fullWidth
+                />
+                <TextField
+                    required
+                    margin="dense"
+                    onChange={handleCity}
+                    id="city"
+                    type="text"
+                    label="City"
+                    fullWidth
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleCustClose} color="primary">
+                    Cancel
+                </Button>
+                <Button
+                    onClick={() => {
+                        postCustomer()
+                        handleCustClose()
+                    }}
+                    color="primary"
+                >
+                    Submit
+                </Button>
+            </DialogActions>
+        </>
     )
 }
 export default CustomerForm
