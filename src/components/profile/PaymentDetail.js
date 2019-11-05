@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 
 const PaymentDetail = props => {
     const [payment, setPayments] = useState([])
+    console.log(payment)
 
     const getPayment = paymentId => {
         fetch(`http://localhost:8000/payment/${paymentId}`, {
@@ -27,7 +28,7 @@ const PaymentDetail = props => {
                     "kter_token"
                 )}`
             }
-        }).then(()=>props.history.push(`/customer/${props.customerId}`))
+        }).then(()=>props.history.push(`/customer/${payment.customer_id}`))
     }
 
     useEffect(() => {

@@ -7,10 +7,6 @@ import EventForm from "./EventForm"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
-// import DialogActions from "@material-ui/core/DialogActions"
-// import DialogContent from "@material-ui/core/DialogContent"
-// import DialogContentText from "@material-ui/core/DialogContentText"
-// import DialogTitle from "@material-ui/core/DialogTitle"
 
 const CustomerDetail = props => {
   const [customer, setCustomer] = useState([])
@@ -104,14 +100,6 @@ const CustomerDetail = props => {
       >
         Delete
       </Button>
-      {/* <Button
-        variant="outlined"
-        onClick={() => {
-          props.history.push(`/customer/${customer.id}/edit`)
-        }}
-        >
-        Edit
-        </Button> */}
       <Button variant="outlined" onClick={handleOpenEdit}>
         Edit
       </Button>
