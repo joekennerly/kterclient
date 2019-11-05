@@ -121,7 +121,7 @@ const CustomerDetail = props => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <CustomerEdit customer={customer} getCustomer={getCustomer} handleCloseEdit={handleCloseEdit}/>
+        <CustomerEdit customer={customer} getCustomer={()=>getCustomer(customer.id)} handleCloseEdit={handleCloseEdit}/>
       </Dialog>
 
       <Typography variant="h6">Payment Types</Typography>

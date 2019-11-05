@@ -41,7 +41,7 @@ const CustomerEdit = props => {
           setCity("")
         })
         .then(() => {
-          getCustomer(customer.id)
+          getCustomer()
           handleCloseEdit()
         })
     }
