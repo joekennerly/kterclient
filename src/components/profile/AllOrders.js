@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 export default function AllOrders(props) {
   const { confirmed } = props
   const classes = useStyles()
-  console.log(confirmed)
   return (
     <>
       <h3>Upcoming Events</h3>
