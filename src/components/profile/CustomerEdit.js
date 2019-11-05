@@ -1,25 +1,8 @@
-import React, { useRef, useState, useEffect } from "react"
+import React, { useRef } from "react"
 import "./Profile.css"
 
 const CustomerEdit = (props) => {
-    const [customer, setCustomer] = useState([])
-    const getCustomer = (customerId) => {
-        fetch(`http://localhost:8000/customer/${customerId}`, {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Token ${localStorage.getItem("kter_token")}`
-            }
-        })
-        .then(response => response.json())
-        .then((customer) => {
-            setCustomer(customer)
-        })
-    }
-    useEffect(() => {
-        getCustomer(props.customerId)
-    }, [props.customerId])
+    const { customer, getCustomer, handleCloseEdit } = props
 
     const name = useRef()
     const phone = useRef()
@@ -46,7 +29,7 @@ const CustomerEdit = (props) => {
             name.current.value = ""
             phone.current.value = ""
             city.current.value = ""
-        }).then(()=>props.history.push(`/customer/${customer.id}`))
+        }).then(()=>getCustomer(customer.id))
         }
     }
 
@@ -72,7 +55,10 @@ const CustomerEdit = (props) => {
                 type="text"
                 defaultValue={customer.city}
             />
-            <button onClick={()=>postCustomer(customer.id)}>Submit</button>
+            <button onClick={() => {
+                postCustomer(customer.id)
+                handleCloseEdit()
+            }}>Submit</button>
         </div>
     )
 }

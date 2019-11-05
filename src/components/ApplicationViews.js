@@ -116,12 +116,14 @@ const ApplicationViews = () => {
                 render={props => {
                     const eventId = +props.match.params.eventId
                     const customerId = +props.match.params.customerId
+                    const cust = customers.filter(customer=>customer.id === customerId)
                     return (
                         <EventDetail
                             {...props}
                             products={products}
                             eventId={eventId}
                             customerId={customerId}
+                            customer={cust}
                         />
                     )
                 }}

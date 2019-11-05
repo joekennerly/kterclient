@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import PaymentForm from "./PaymentForm"
+import CustomerEdit from "./CustomerEdit"
 import EventList from "./EventList"
 import EventForm from "./EventForm"
 import Typography from "@material-ui/core/Typography"
@@ -15,6 +16,10 @@ const CustomerDetail = props => {
   const [customer, setCustomer] = useState([])
   const [payments, setPayments] = useState([])
   const [orders, setOrders] = useState([])
+
+  const [openEdit, setOpenEdit] = useState(false)
+  const handleOpenEdit = () => setOpenEdit(true)
+  const handleCloseEdit = () => setOpenEdit(false)
 
   const [openPay, setOpenPay] = useState(false)
   const handleOpenPay = () => setOpenPay(true)
@@ -89,7 +94,8 @@ const CustomerDetail = props => {
     <>
       <Typography variant="h4">{customer.name}</Typography>
       <Typography>{customer.phone}</Typography>
-      <Button variant="outlined"
+      <Button
+        variant="outlined"
         onClick={() => {
           if (window.confirm("Are you sure?")) {
             deleteItem(customer.id)
@@ -98,14 +104,42 @@ const CustomerDetail = props => {
       >
         Delete
       </Button>
-      <Button variant="outlined"
+      {/* <Button
+        variant="outlined"
         onClick={() => {
           props.history.push(`/customer/${customer.id}/edit`)
         }}
-      >
+        >
+        Edit
+        </Button> */}
+      <Button variant="outlined" onClick={handleOpenEdit}>
         Edit
       </Button>
-
+      <Dialog
+        open={openEdit}
+        onClose={handleCloseEdit}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEdit} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={handleCloseEdit} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+        <CustomerEdit customer={customer} getCustomer={getCustomer} handleCloseEdit={handleCloseEdit}/>
+      </Dialog>
 
       <Typography variant="h6">Payment Types</Typography>
       <Button variant="outlined" color="primary" onClick={handleOpenPay}>
@@ -145,7 +179,6 @@ const CustomerDetail = props => {
         />
       </Dialog>
 
-
       <Typography variant="h6">Customer's Orders</Typography>
       <Button variant="outlined" color="primary" onClick={handleOpenEv}>
         Add An Event
@@ -173,10 +206,10 @@ const CustomerDetail = props => {
             Agree
           </Button>
         </DialogActions>
-      <EventForm
-        customerId={customer.id}
-        getOrders={() => getOrders(customer.id)}
-      />
+        <EventForm
+          customerId={customer.id}
+          getOrders={() => getOrders(customer.id)}
+        />
       </Dialog>
       <EventList orders={orders} customer={customer} />
     </>
