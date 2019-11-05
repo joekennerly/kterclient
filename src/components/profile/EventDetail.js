@@ -105,8 +105,6 @@ const EventDetail = props => {
     return total
   }
 
-  console.log(payments)
-
   return (
     <>
       <h3>{order.location}</h3>
