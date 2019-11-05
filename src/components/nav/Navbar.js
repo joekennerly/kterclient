@@ -35,68 +35,72 @@ const Navbar = props => {
     const classes = useStyles()
     const { isAuthenticated, logout } = useSimpleAuth()
     return (
-        <>
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Toolbar>
-                        {isAuthenticated() ? (
-                            <IconButton
-                                edge="start"
-                                className={classes.menuButton}
-                                color="inherit"
-                                aria-label="menu"
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    {isAuthenticated() ? (
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="menu"
+                        >
+                            <MenuIcon
+                                aria-controls="simple-menu"
+                                aria-haspopup="true"
+                                onClick={handleClick}
+                            />
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
                             >
-                                <MenuIcon
-                                    aria-controls="simple-menu"
-                                    aria-haspopup="true"
-                                    onClick={handleClick}
-                                />
-                                <Menu
-                                    id="simple-menu"
-                                    anchorEl={anchorEl}
-                                    keepMounted
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleClose}
+                                <MenuItem
+                                    onClick={() => {
+                                        props.history.push("/")
+                                        handleClose()
+                                    }}
                                 >
-                                    <MenuItem
-                                        onClick={() => {
-                                            props.history.push("/")
-                                            handleClose()
-                                        }}
-                                    >
-                                        Home
+                                    Home
                                 </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            props.history.push("/profile")
-                                            handleClose()
-                                        }}
-                                    >
-                                        Profile
+                                <MenuItem
+                                    onClick={() => {
+                                        props.history.push("/profile")
+                                        handleClose()
+                                    }}
+                                >
+                                    Profile
                                 </MenuItem>
-                                </Menu>
-                            </IconButton>
-                        ) : (<div/>)}
-                        <Typography variant="h6" className={classes.title}>
-                            Kter
-                        </Typography>
-                        {isAuthenticated() ? (
-                            <>{user.map(vendor => (
-                                <section key={vendor.id} id="profile">
-                                    Signed in as {vendor.user.first_name} {vendor.user.last_name}
-                                </section>
+                            </Menu>
+                        </IconButton>
+                    ) : (
+                        <div />
+                    )}
+                    <Typography variant="h6" className={classes.title}>
+                        K TER
+                    </Typography>
+                    {isAuthenticated() ? (
+                        <>
+                            {user.map(vendor => (
+                                <Typography key={vendor.id} id="profile">
+                                    Signed in as {vendor.user.first_name}{" "}
+                                    {vendor.user.last_name}
+                                </Typography>
                             ))}
                             <Button
                                 color="inherit"
-                                    onClick={() => {
-                                        logout()
-                                        props.history.push("/")
-                                    }}
+                                onClick={() => {
+                                    logout()
+                                    props.history.push("/")
+                                }}
                             >
                                 Logout
-                            </Button></>
-                        ) : (
-                            <>
+                            </Button>
+                        </>
+                    ) : (
+                        <>
                             <Button
                                 color="inherit"
                                 onClick={() => props.history.push("/login")}
@@ -109,12 +113,11 @@ const Navbar = props => {
                             >
                                 Register
                             </Button>
-                            </>
-                        )}
-                    </Toolbar>
-                </AppBar>
-            </div>
-        </>
+                        </>
+                    )}
+                </Toolbar>
+            </AppBar>
+        </div>
     )
 }
 export default Navbar

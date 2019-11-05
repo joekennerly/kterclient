@@ -265,14 +265,11 @@ export default function Profile(props) {
                         onClose={handleCustClose}
                         aria-labelledby="form-dialog-title"
                     >
-                        <DialogTitle id="form-dialog-title">
-                            Add A New Customer
-                        </DialogTitle>
                         <DialogContent>
-                            <DialogContentText>
-                                Once a customer is created, you may update their information with events and payment details
-                            </DialogContentText>
-                        <CustomerForm getCustomers={getCustomers} />
+                            <CustomerForm
+                                getCustomers={getCustomers}
+                                handleCustClose={handleCustClose}
+                            />
                         </DialogContent>
                     </Dialog>
                     <CustomerList
