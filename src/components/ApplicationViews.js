@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import { withRouter } from "react-router"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
@@ -10,8 +10,10 @@ import ProductEdit from "../components/profile/ProductEdit"
 import CustomerDetail from "../components/profile/CustomerDetail"
 import PaymentDetail from "../components/profile/PaymentDetail"
 import EventDetail from "../components/profile/EventDetail"
+import useSimpleAuth from '../hooks/ui/useSimpleAuth'
 
 const ApplicationViews = () => {
+    const { isAuthenticated } = useSimpleAuth()
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [categories, setCategories] = useState([])
@@ -65,7 +67,10 @@ const ApplicationViews = () => {
         <>
             <Route path="/register" render={props => <Register />} />
             <Route path="/login" render={props => <Login />} />
-            <Route exact path="/" render={props => <Home />} />
+            <Route exact path="/" render={props => {
+                if (!isAuthenticated()) return <Home />
+                else return <Redirect to="/profile" />
+            }} />
             <Route exact path="/profile" render={props => <Profile categories={categories} getProducts={getProducts}/>} />
             <Route
                 exact
