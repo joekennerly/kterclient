@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
-// import PaymentForm from "./PaymentForm"
+import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
 
 const EventDetail = props => {
-  // const { customer } = props
+  const { customerId } = props
   const payment = useRef()
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
@@ -122,7 +122,8 @@ const EventDetail = props => {
   return (
     <Grid container>
       <Grid>
-        {confirmation ? <p>Good</p> : <p>Bad</p>}
+        {payments.length ? <p>P</p> : <p>No Payment</p>}
+        {confirmation ? <p>confirm</p> : <p>not confirm</p>}
         <h3>Available Food</h3>
         <EventProducts
           orderId={order.id}
@@ -150,7 +151,7 @@ const EventDetail = props => {
           )
         })}
 
-        {payments.length > 0 ? (
+        {payments.length ? (
           <>
             <h3>Select Payment</h3>
             <select ref={payment} name="payment" required defaultValue="0">
@@ -167,7 +168,7 @@ const EventDetail = props => {
         ) : (
           <>
             <h3>This customer has no payment information</h3>
-              {/* <PaymentForm getPayments={() => getPayments(customer.id)} customerId={customer.id} handleClosePay={()=>null} /> */}
+              <PaymentForm getPayments={() => getPayments(customerId)} customerId={customerId} handleClosePay={()=>null} />
           </>
         )}
 
