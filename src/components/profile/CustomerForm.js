@@ -42,17 +42,20 @@ const CustomerForm = props => {
                     setPhone("")
                     setCity("")
                 })
-                .then(getCustomers)
+                .then(() => {
+                    getCustomers()
+                    handleCustClose()
+                })
         }
     }
 
     //Render Customer form
     return (
         <>
-            <DialogTitle id="form-dialog-title">Add A New Product</DialogTitle>
+            <DialogTitle id="form-dialog-title">Add A New Contact</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    This will be added to your product inventory.
+                    This person will be added to your list of contacts.
                 </DialogContentText>
                 <TextField
                     autoFocus
@@ -60,7 +63,7 @@ const CustomerForm = props => {
                     onChange={handleName}
                     margin="dense"
                     id="name"
-                    label="Name of Customer"
+                    label="Name of Contact"
                     type="text"
                     fullWidth
                 />
@@ -88,10 +91,7 @@ const CustomerForm = props => {
                     Cancel
                 </Button>
                 <Button
-                    onClick={() => {
-                        postCustomer()
-                        handleCustClose()
-                    }}
+                    onClick={postCustomer}
                     color="primary"
                 >
                     Submit

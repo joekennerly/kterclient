@@ -3,10 +3,10 @@ import { Link } from "react-router-dom"
 
 export default function ProductList(props) {
     return (
-        <>
+        <ul>
             {props.products.map(product => (
-                <Link key={product.id} to={`/product/${product.id}`}>{product.name}</Link>
+                <li key={product.id}><Link to={`/product/${product.id}`}>{product.name}</Link></li>
             ))}
-        </>
+        </ul>
     )
 }

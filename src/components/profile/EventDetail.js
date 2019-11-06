@@ -108,23 +108,7 @@ const EventDetail = props => {
   return (
     <>
       <h3>{order.location}</h3>
-      {order.payment ? (
-        <p>Order Confirmed!</p>
-      ) : (
-        <>
-          {payments.length < 0 ? (
-            <button
-            onClick={() => {
-              handleConfirm(order.id, payment)
-            }}
-            >
-              Confirm Order
-            </button>
-          ) : (
-            <p>Add a payment to confirm</p>
-          )}
-        </>
-      )}
+
       {products.map(product => {
         return (
           <div key={product.id}>
@@ -133,7 +117,6 @@ const EventDetail = props => {
           </div>
         )
       })}
-      <h1>Total Price: ${total()}</h1>
 
       {payments.length > 0 ? (
         <>
@@ -155,6 +138,28 @@ const EventDetail = props => {
           <PaymentForm getPayments={getPayments} />
         </>
       )}
+
+      {order.payment ? (
+        <p>Order Confirmed!</p>
+      ) : (
+        <>
+            {payments.length > 0 ? (
+              <>
+              <h1>Total Price: ${total()}</h1>
+            <button
+            onClick={() => {
+              handleConfirm(order.id, payment)
+            }}
+            >
+              Confirm Order
+            </button>
+              </>
+          ) : (
+            <div />
+          )}
+        </>
+      )}
+
       <h3>Add Food To Order</h3>
       <EventProducts
         orderId={order.id}

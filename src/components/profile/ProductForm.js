@@ -81,7 +81,7 @@ export default function ProductForm(props) {
     }
     return (
         <>
-            <DialogTitle id="form-dialog-title">Add A New Product</DialogTitle>
+            <DialogTitle id="form-dialog-title">Add Food Item</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     This will be added to your product inventory.
