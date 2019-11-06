@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
+import Button from "@material-ui/core/Button"
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from "react-router-dom"
 
 const EventDetail = props => {
@@ -136,7 +138,7 @@ const EventDetail = props => {
             </Link>
           ))}
         </h3>
-        <button
+        <Button size="small" variant="outlined" color="secondary"
           onClick={() => {
             if (window.confirm("Are you sure?")) {
               deleteItem(order.id)
@@ -144,12 +146,12 @@ const EventDetail = props => {
           }}
         >
           Delete Order
-        </button>
+        </Button>
         {products.map(product => {
           return (
             <div key={product.id}>
               {product.product.name} {product.product.price}
-              <button onClick={() => removeProduct(product.id)}>-</button>
+              <Button size="small" onClick={() => removeProduct(product.id)}><DeleteIcon /></Button>
             </div>
           )
         })}
@@ -187,13 +189,13 @@ const EventDetail = props => {
           <>
             {payments.length > 0 ? (
               <>
-                <button
+                <Button size="small" color="primary" variant="outlined"
                   onClick={() => {
                     handleConfirm(order.id, payment)
                   }}
                 >
                   Confirm Order
-                </button>
+                </Button>
               </>
             ) : (
               <div />
