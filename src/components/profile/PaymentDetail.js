@@ -27,7 +27,7 @@ const PaymentDetail = props => {
                     "kter_token"
                 )}`
             }
-        }).then(()=>props.history.push(`/customer/${props.customerId}`))
+        }).then(()=>props.history.push(`/customer/${payment.customer_id}`))
     }
 
     useEffect(() => {

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom"
 
 export default function CustomerList(props) {
     return (
-        <>
+        <ul>
             {props.customers.map(customer => (
-                <Link key={customer.id} to={`/customer/${customer.id}`}>{customer.name}</Link>
+                <li key={customer.id}><Link to={`/customer/${customer.id}`}>{customer.name}</Link></li>
             ))}
-        </>
+        </ul>
     )
 }

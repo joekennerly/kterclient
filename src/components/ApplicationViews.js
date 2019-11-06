@@ -8,7 +8,6 @@ import Home from "./home/Home"
 import ProductDetail from "../components/profile/ProductDetail"
 import ProductEdit from "../components/profile/ProductEdit"
 import CustomerDetail from "../components/profile/CustomerDetail"
-// import CustomerEdit from "../components/profile/CustomerEdit"
 import PaymentDetail from "../components/profile/PaymentDetail"
 import EventDetail from "../components/profile/EventDetail"
 
@@ -93,15 +92,6 @@ const ApplicationViews = () => {
                     return <CustomerDetail {...props} customerId={customerId} />
                 }}
             />
-            {/* <Route
-                exact
-                path="/customer/:customerId(\d+)/edit"
-                render={props => {
-                    const customerId = +props.match.params.customerId
-                    const cust = customers.filter(customer=>customer.id === customerId)
-                    return <CustomerEdit {...props} customer={cust} customerId={customerId} />
-                }}
-            /> */}
             <Route
                 exact
                 path="/payment/:paymentId(\d+)"
