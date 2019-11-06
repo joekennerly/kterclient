@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
 import { Link } from "react-router-dom"

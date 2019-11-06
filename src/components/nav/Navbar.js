@@ -6,7 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,17 +36,17 @@ const Navbar = props => {
                 color="inherit"
                 aria-label="menu"
                 onClick={() => props.history.push("/profile")}
-
               >
-                <MenuIcon aria-controls="simple-menu" aria-haspopup="true" />
+                <Typography variant="h6" className={classes.title}>
+                  K TER
+                </Typography>
+                {/* <MenuIcon aria-controls="simple-menu" aria-haspopup="true" /> */}
               </IconButton>
             </>
           ) : (
             <div />
           )}
-          <Typography variant="h6" className={classes.title}>
-            K TER
-          </Typography>
+          <Typography variant="h6" className={classes.title} />
           {isAuthenticated() ? (
             <>
               {user.map(vendor => (
