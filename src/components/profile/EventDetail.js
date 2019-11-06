@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
+import { Link } from "react-router-dom"
+import { Typography } from "@material-ui/core"
 
 const EventDetail = props => {
   const { customerId, customer } = props
@@ -122,7 +124,6 @@ const EventDetail = props => {
   return (
     <Grid container>
       <Grid>
-        {customer.map(c=><p key={c.id}>{c.name}</p>)}
         <h3>Available Food</h3>
         <EventProducts
           orderId={order.id}
@@ -131,7 +132,9 @@ const EventDetail = props => {
           />
       </Grid>
       <Grid>
-        <h3>{order.location}</h3>
+        <h3>
+        {customer.map(c=><Link key={c.id} to={`/customer/${c.id}`}>{order.location} - {c.name}</Link>)}
+        </h3>
         <button
           onClick={() => {
             if (window.confirm("Are you sure?")) {
