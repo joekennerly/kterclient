@@ -3,7 +3,6 @@ import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
 import { Link } from "react-router-dom"
-import { Typography } from "@material-ui/core"
 
 const EventDetail = props => {
   const { customerId, customer } = props
@@ -13,12 +12,10 @@ const EventDetail = props => {
   const [payments, setPayments] = useState([])
   const [confirmation, setConfirmation] = useState(false)
 
-
   const getConfirmation = () => {
     if (order.payment !== null) {
       setConfirmation(true)
-    }
-    else {
+    } else {
       setConfirmation(false)
     }
   }
@@ -42,9 +39,9 @@ const EventDetail = props => {
       .then(event => {
         setOrders(event)
       })
-    }
+  }
 
-    const getProducts = eventId => {
+  const getProducts = eventId => {
     fetch(`http://localhost:8000/orderproduct?order_id=${eventId}`, {
       method: "GET",
       headers: {
@@ -53,7 +50,7 @@ const EventDetail = props => {
         Authorization: `Token ${localStorage.getItem("kter_token")}`
       }
     })
-    .then(response => response.json())
+      .then(response => response.json())
       .then(products => {
         setProducts(products)
       })
@@ -129,11 +126,15 @@ const EventDetail = props => {
           orderId={order.id}
           getProducts={getProducts}
           products={props.products}
-          />
+        />
       </Grid>
       <Grid>
         <h3>
-          {customer.map(c => <Link key={c.id} to={`/customer/${c.id}`}>{order.location} - {c.name} - {order.start.slice(5,10)}</Link>)}
+          {customer.map(c => (
+            <Link key={c.id} to={`/customer/${c.id}`}>
+              {order.location} - {c.name}
+            </Link>
+          ))}
         </h3>
         <button
           onClick={() => {
@@ -153,6 +154,8 @@ const EventDetail = props => {
           )
         })}
 
+        <h1>Total Price: ${total()}</h1>
+
         {payments.length ? (
           <>
             <h3>Select Payment</h3>
@@ -170,7 +173,11 @@ const EventDetail = props => {
         ) : (
           <>
             <h3>This customer has no payment information</h3>
-              <PaymentForm getPayments={() => getPayments(customerId)} customerId={customerId} handleClosePay={()=>null} />
+            <PaymentForm
+              getPayments={() => getPayments(customerId)}
+              customerId={customerId}
+              handleClosePay={() => null}
+            />
           </>
         )}
 
@@ -180,7 +187,6 @@ const EventDetail = props => {
           <>
             {payments.length > 0 ? (
               <>
-                <h1>Total Price: ${total()}</h1>
                 <button
                   onClick={() => {
                     handleConfirm(order.id, payment)

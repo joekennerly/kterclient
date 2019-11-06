@@ -1,4 +1,6 @@
 import React from "react"
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 export default function EventProducts(props) {
     const addProduct = (orderId, productId) => {
@@ -20,11 +22,11 @@ export default function EventProducts(props) {
             {props.products.map(product => (
                 <div key={product.id}>
                     {product.name}{" "}
-                    <button
+                    <Button size="small"
                         onClick={() => addProduct(props.orderId, product.id)}
                     >
-                        +
-                    </button>
+                        <AddIcon />
+                    </Button>
                 </div>
             ))}
         </>
