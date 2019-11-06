@@ -133,7 +133,7 @@ const EventDetail = props => {
       </Grid>
       <Grid>
         <h3>
-        {customer.map(c=><Link key={c.id} to={`/customer/${c.id}`}>{order.location} - {c.name}</Link>)}
+          {customer.map(c => <Link key={c.id} to={`/customer/${c.id}`}>{order.location} - {c.name} - {order.start.slice(5,10)}</Link>)}
         </h3>
         <button
           onClick={() => {
