@@ -75,7 +75,7 @@ const EventDetail = props => {
   }
 
   const handleConfirm = orderId => {
-    if (!payment.current.value) {
+    if (payment.current.value === "0") {
       window.alert("Please select a payment")
     } else {
       fetch(`http://localhost:8000/order/${orderId}`, {
