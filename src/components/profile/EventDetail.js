@@ -11,23 +11,13 @@ import Select from "@material-ui/core/Select"
 
 const EventDetail = props => {
   const { customerId, customer } = props
-  const payment = useRef()
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])
-  const [confirmation, setConfirmation] = useState(false)
 
-  const [age, setAge] = React.useState("")
+  const [payment, setPayment] = useState("")
   const handleChange = event => {
-    setAge(event.target.value)
-  }
-
-  const getConfirmation = () => {
-    if (order.payment !== null) {
-      setConfirmation(true)
-    } else {
-      setConfirmation(false)
-    }
+    setPayment(event.target.value)
   }
 
   const total = () => {
@@ -101,7 +91,7 @@ const EventDetail = props => {
   }
 
   const handleConfirm = orderId => {
-    if (payment.current.value === "0") {
+    if (payment === "") {
       window.alert("Please select a payment")
     } else if (total() === 0) {
       window.alert("Must have at lease one product to checkout")
@@ -113,11 +103,10 @@ const EventDetail = props => {
           "Content-Type": "application/json",
           Authorization: `Token ${localStorage.getItem("kter_token")}`
         },
-        body: JSON.stringify({ payment_id: +payment.current.value })
+        body: JSON.stringify({ payment_id: +payment })
       }).then(() => {
-        payment.current.value = "0"
+        setPayment("")
         getOrders(order.id)
-        getConfirmation()
       })
     }
   }
@@ -177,7 +166,7 @@ const EventDetail = props => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
+                value={payment}
                 onChange={handleChange}
                 displayEmpty
               >
@@ -206,7 +195,7 @@ const EventDetail = props => {
         )}
 
         {order.payment ? (
-          <p>Order Confirmed!</p>
+          <h1 style={{ color: 'springgreen'}}>Order Confirmed!</h1>
         ) : (
           <>
             {payments.length > 0 ? (
