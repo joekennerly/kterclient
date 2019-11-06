@@ -31,7 +31,7 @@ export default function AllOrders(props) {
                   <Paper className={classes.paper}>
                     {order.payment ? (
                       <Typography style={{ color: "springgreen" }}>
-                        {order.start.slice(5, 10)} {order.customer.name} {order.location} {"[CONFIRMED]"}
+                        {order.start.slice(5, 10)} @ {order.start} {order.customer.name} {order.location} {"[CONFIRMED]"}
                       </Typography>
                     ) : (
                       <Typography style={{ color: "tomato" }}>

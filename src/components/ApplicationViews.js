@@ -73,7 +73,7 @@ const ApplicationViews = () => {
                 path="/product/:productId(\d+)"
                 render={props => {
                     const productId = +props.match.params.productId
-                    return <ProductDetail {...props} productId={productId} />
+                    return <ProductDetail {...props} productId={productId} products={products}/>
                 }}
             />
             <Route

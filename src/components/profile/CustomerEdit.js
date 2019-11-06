@@ -10,13 +10,13 @@ import Button from "@material-ui/core/Button"
 const CustomerEdit = props => {
   const { customer, getCustomer, handleCloseEdit } = props
 
-  const [name, setName] = useState(customer.name)
-  const [phone, setPhone] = useState(customer.phone)
-  const [city, setCity] = useState(customer.city)
+    const [name, setName] = useState(customer.name)
+    const [phone, setPhone] = useState(customer.phone)
+    const [city, setCity] = useState(customer.city)
 
-  const handleName = e => setName(e.target.value)
-  const handlePhone = e => setPhone(e.target.value)
-  const handleCity = e => setCity(e.target.value)
+    const handleName = e => setName(e.target.value)
+    const handlePhone = e => setPhone(e.target.value)
+    const handleCity = e => setCity(e.target.value)
 
   const postCustomer = id => {
     if (name === "" || phone === "" || city === "") {
