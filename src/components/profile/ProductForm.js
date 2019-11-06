@@ -47,12 +47,6 @@ export default function ProductForm(props) {
         ) {
             window.alert("Please fill out all form fields")
         } else {
-            console.log({
-                name: name,
-                productcategory_id: selected,
-                price: price,
-                description: description
-            })
             fetch("http://localhost:8000/product", {
                 method: "POST",
                 headers: {

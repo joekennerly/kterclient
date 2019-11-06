@@ -23,7 +23,6 @@ const CustomerForm = props => {
         if (name === "" || phone === "" || city === "") {
             window.alert("Please fill out all form fields")
         } else {
-            console.log({ name, phone, city })
             fetch("http://localhost:8000/customer", {
                 method: "POST",
                 headers: {
