@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 
 const PaymentDetail = props => {
     const [payment, setPayments] = useState([])
-    console.log(payment)
 
     const getPayment = paymentId => {
         fetch(`http://localhost:8000/payment/${paymentId}`, {

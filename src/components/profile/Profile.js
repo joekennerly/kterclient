@@ -52,7 +52,7 @@ export default function Profile(props) {
             })
 
     const getConfirmed = () =>
-        fetch("http://localhost:8000/order", {
+        fetch("http://localhost:8000/order?current", {
             method: "GET",
             headers: {
                 Accept: "application/json",
