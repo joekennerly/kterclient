@@ -27,7 +27,6 @@ const ProductEdit = props => {
   //Get category resource and set it as category state
   const { product, getProduct, handleCloseEdit } = props
   const [categories, setCategory] = useState([])
-  // const [product, setProduct] = useState([])
   const classes = useStyles()
 
   const [selected, setSelected] = useState(product.productcategory_id)
@@ -55,32 +54,9 @@ const ProductEdit = props => {
       })
   }
 
-  // const getProduct = productId => {
-  //   fetch(`http://localhost:8000/product/${productId}`, {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: `Token ${localStorage.getItem("kter_token")}`
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(product => {
-  //       setProduct(product)
-  //     })
-  // }
-
   useEffect(() => {
     getCategory()
-    // getProduct(props.productId)
   }, [])
-  // }, [props.productId])
-
-  //Input Refs
-  // const name = useRef()
-  // const productcategory = useRef()
-  // const price = useRef()
-  // const description = useRef()
 
   //put a product, then set refs back to ""
   const postProduct = id => {
@@ -181,41 +157,6 @@ const ProductEdit = props => {
         </Button>
       </DialogActions>
     </>
-    // <div className="form">
-    //     <h1>Edit Product</h1>
-    //     <input
-    //         required
-    //         ref={name}
-    //         type="text"
-    //         defaultValue={product.name}
-    //         autoFocus
-    //     />
-    //     <select
-    //         ref={productcategory}
-    //         name="category"
-    //         required
-    //         value={product.productcategory_id}
-    //     >
-    //         <option>
-    //             Select Category
-    //         </option>
-    //         {category.map(category => {
-    //             return <option key={category.id} value={category.id}>{category.name}</option>
-    //         })}
-    //     </select>
-    //     <input
-    //         required
-    //         ref={price}
-    //         type="number"
-    //         defaultValue={product.price} />
-    //     <input
-    //         required
-    //         ref={description}
-    //         type="text"
-    //         defaultValue={product.description}
-    //     />
-    //     <button onClick={()=>postProduct(product.id)}>Submit</button>
-    // </div>
   )
 }
 export default ProductEdit
