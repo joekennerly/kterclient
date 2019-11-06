@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
+import Grid from "@material-ui/core/Grid"
 
 const EventDetail = props => {
   // const { customer } = props
@@ -106,76 +107,78 @@ const EventDetail = props => {
   }
 
   return (
-    <>
-      <h3>{order.location}</h3>
+    <Grid container>
+      <Grid>
+        <h3>Add Food</h3>
+        <EventProducts
+          orderId={order.id}
+          getProducts={getProducts}
+          products={props.products}
+        />
+      </Grid>
+      <Grid>
+        <h3>{order.location}</h3>
+        <button
+          onClick={() => {
+            if (window.confirm("Are you sure?")) {
+              deleteItem(order.id)
+            }
+          }}
+        >
+          Delete Order
+        </button>
+        {products.map(product => {
+          return (
+            <div key={product.id}>
+              {product.product.name} {product.product.price}
+              <button onClick={() => removeProduct(product.id)}>-</button>
+            </div>
+          )
+        })}
 
-      {products.map(product => {
-        return (
-          <div key={product.id}>
-            {product.product.name} {product.product.price}
-            <button onClick={() => removeProduct(product.id)}>-</button>
-          </div>
-        )
-      })}
+        {payments.length > 0 ? (
+          <>
+            <h3>Select Payment</h3>
+            <select ref={payment} name="payment" required defaultValue="0">
+              <option value="0">Select Payment</option>
+              {payments.map(payment => {
+                return (
+                  <option key={payment.id} value={payment.id}>
+                    {payment.merchant_name}
+                  </option>
+                )
+              })}
+            </select>
+          </>
+        ) : (
+          <>
+            <h3>This customer has no payment information</h3>
+            <PaymentForm getPayments={getPayments} />
+          </>
+        )}
 
-      {payments.length > 0 ? (
-        <>
-          <h3>Select Payment</h3>
-          <select ref={payment} name="payment" required defaultValue="0">
-            <option value="0">Select Payment</option>
-            {payments.map(payment => {
-              return (
-                <option key={payment.id} value={payment.id}>
-                  {payment.merchant_name}
-                </option>
-              )
-            })}
-          </select>
-        </>
-      ) : (
-        <>
-          <h3>This customer has no payment information</h3>
-          <PaymentForm getPayments={getPayments} />
-        </>
-      )}
-
-      {order.payment ? (
-        <p>Order Confirmed!</p>
-      ) : (
-        <>
+        {order.payment ? (
+          <p>Order Confirmed!</p>
+        ) : (
+          <>
             {payments.length > 0 ? (
               <>
-              <h1>Total Price: ${total()}</h1>
-            <button
-            onClick={() => {
-              handleConfirm(order.id, payment)
-            }}
-            >
-              Confirm Order
-            </button>
+                <h1>Total Price: ${total()}</h1>
+                <button
+                  onClick={() => {
+                    handleConfirm(order.id, payment)
+                  }}
+                >
+                  Confirm Order
+                </button>
               </>
-          ) : (
-            <div />
-          )}
-        </>
-      )}
-
-      <h3>Add Food To Order</h3>
-      <EventProducts
-        orderId={order.id}
-        getProducts={getProducts}
-        products={props.products}
-      />
-      <button
-        onClick={() => {
-          if (window.confirm("Are you sure?")) {
-            deleteItem(order.id)
-          }
-        }}
-      >
-        Delete Order
-      </button>
-    </>
+            ) : (
+              <div />
+            )}
+          </>
+        )}
+      </Grid>
+    </Grid>
   )
 }
 export default EventDetail
