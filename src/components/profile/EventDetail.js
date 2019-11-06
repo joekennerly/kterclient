@@ -4,12 +4,27 @@ import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
 
 const EventDetail = props => {
-  // const { customer } = props
+  const { customer } = props
+  const payment = useRef()
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])
+  const [confirmation, setConfirmation] = useState(false)
 
-  const payment = useRef()
+  const getConfirmation = (order) => {
+    if (order.payment !== null) {
+      setConfirmation(true)
+    }
+    else {
+      setConfirmation(false)
+    }
+  }
+
+  const total = () => {
+    let total = 0
+    products.forEach(product => (total += +product.product.price))
+    return total
+  }
 
   const getOrders = eventId => {
     fetch(`http://localhost:8000/order/${eventId}`, {
@@ -24,9 +39,9 @@ const EventDetail = props => {
       .then(event => {
         setOrders(event)
       })
-  }
+    }
 
-  const getProducts = eventId => {
+    const getProducts = eventId => {
     fetch(`http://localhost:8000/orderproduct?order_id=${eventId}`, {
       method: "GET",
       headers: {
@@ -35,7 +50,7 @@ const EventDetail = props => {
         Authorization: `Token ${localStorage.getItem("kter_token")}`
       }
     })
-      .then(response => response.json())
+    .then(response => response.json())
       .then(products => {
         setProducts(products)
       })
@@ -78,6 +93,8 @@ const EventDetail = props => {
   const handleConfirm = orderId => {
     if (payment.current.value === "0") {
       window.alert("Please select a payment")
+    } else if (total() === 0) {
+      window.alert("Must have at lease one product to checkout")
     } else {
       fetch(`http://localhost:8000/order/${orderId}`, {
         method: "PUT",
@@ -89,7 +106,8 @@ const EventDetail = props => {
         body: JSON.stringify({ payment_id: +payment.current.value })
       }).then(() => {
         payment.current.value = "0"
-        getOrders()
+        getOrders(order.id)
+        getConfirmation(order)
       })
     }
   }
@@ -98,23 +116,19 @@ const EventDetail = props => {
     getOrders(props.eventId)
     getProducts(props.eventId)
     getPayments(props.customerId)
-  }, [props.eventId, props.customerId])
-
-  const total = () => {
-    let total = 0
-    products.forEach(product => (total += +product.product.price))
-    return total
-  }
+    getConfirmation(order)
+  }, [props.eventId, props.customerId, order])
 
   return (
     <Grid container>
       <Grid>
-        <h3>Add Food</h3>
+        {confirmation ? <p>Good</p> : <p>Bad</p>}
+        <h3>Available Food</h3>
         <EventProducts
           orderId={order.id}
           getProducts={getProducts}
           products={props.products}
-        />
+          />
       </Grid>
       <Grid>
         <h3>{order.location}</h3>
@@ -153,7 +167,7 @@ const EventDetail = props => {
         ) : (
           <>
             <h3>This customer has no payment information</h3>
-            <PaymentForm getPayments={getPayments} />
+            <PaymentForm getPayments={()=>getPayments(customer.id)} />
           </>
         )}
 

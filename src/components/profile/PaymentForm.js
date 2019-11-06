@@ -45,7 +45,7 @@ const PaymentForm = props => {
         })
         .then(() => {
           getPayments()
-          handleClosePay()
+          handleClosePay ? handleClosePay() : console.log()
         })
     }
   }
