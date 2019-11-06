@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
 import Grid from "@material-ui/core/Grid"
 import { Typography } from "@material-ui/core"
+import moment from "moment"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,11 +32,11 @@ export default function AllOrders(props) {
                   <Paper className={classes.paper}>
                     {order.payment ? (
                       <Typography style={{ color: "springgreen" }}>
-                        {order.start.slice(5, 10)} @ {order.start} {order.customer.name} {order.location} {"[CONFIRMED]"}
+                        {order.start.slice(5, 10)} @ {moment(order.start).format('hh:mm A')} {order.customer.name} {order.location} {"[CONFIRMED]"}
                       </Typography>
                     ) : (
                       <Typography style={{ color: "tomato" }}>
-                        {order.start.slice(5, 10)} {order.customer.name} {order.location}
+                        {order.start.slice(5, 10)} @ {moment(order.start).format('hh:mm A')} {order.customer.name} {order.location}
                       </Typography>
                     )}
                   </Paper>
