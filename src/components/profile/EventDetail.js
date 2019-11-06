@@ -4,7 +4,7 @@ import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
 
 const EventDetail = props => {
-  const { customerId } = props
+  const { customerId, customer } = props
   const payment = useRef()
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
@@ -122,8 +122,7 @@ const EventDetail = props => {
   return (
     <Grid container>
       <Grid>
-        {payments.length ? <p>P</p> : <p>No Payment</p>}
-        {confirmation ? <p>confirm</p> : <p>not confirm</p>}
+        {customer.map(c=><p key={c.id}>{c.name}</p>)}
         <h3>Available Food</h3>
         <EventProducts
           orderId={order.id}
