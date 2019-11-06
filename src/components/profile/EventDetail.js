@@ -11,7 +11,7 @@ const EventDetail = props => {
   const [payments, setPayments] = useState([])
   const [confirmation, setConfirmation] = useState(false)
 
-  const getConfirmation = (order) => {
+  const getConfirmation = () => {
     if (order.payment !== null) {
       setConfirmation(true)
     }
@@ -107,7 +107,7 @@ const EventDetail = props => {
       }).then(() => {
         payment.current.value = "0"
         getOrders(order.id)
-        getConfirmation(order)
+        getConfirmation()
       })
     }
   }
@@ -116,8 +116,8 @@ const EventDetail = props => {
     getOrders(props.eventId)
     getProducts(props.eventId)
     getPayments(props.customerId)
-    getConfirmation(order)
-  }, [props.eventId, props.customerId, order])
+    getConfirmation()
+  }, [props.eventId, props.customerId])
 
   return (
     <Grid container>
@@ -167,7 +167,7 @@ const EventDetail = props => {
         ) : (
           <>
             <h3>This customer has no payment information</h3>
-            <PaymentForm getPayments={()=>getPayments(customer.id)} />
+              <PaymentForm getPayments={() => getPayments(customer.id)} customerId={customer.id} handleClosePay={()=>null} />
           </>
         )}
 
