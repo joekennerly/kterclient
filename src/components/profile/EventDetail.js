@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
+import { Link } from "react-router-dom"
 import Grid from "@material-ui/core/Grid"
 import Button from "@material-ui/core/Button"
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Link } from "react-router-dom"
+import DeleteIcon from "@material-ui/icons/Delete"
+import MenuItem from "@material-ui/core/MenuItem"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
 
 const EventDetail = props => {
   const { customerId, customer } = props
@@ -13,6 +16,11 @@ const EventDetail = props => {
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])
   const [confirmation, setConfirmation] = useState(false)
+
+  const [age, setAge] = React.useState("")
+  const handleChange = event => {
+    setAge(event.target.value)
+  }
 
   const getConfirmation = () => {
     if (order.payment !== null) {
@@ -138,7 +146,10 @@ const EventDetail = props => {
             </Link>
           ))}
         </h3>
-        <Button size="small" variant="outlined" color="secondary"
+        <Button
+          size="small"
+          variant="outlined"
+          color="secondary"
           onClick={() => {
             if (window.confirm("Are you sure?")) {
               deleteItem(order.id)
@@ -151,7 +162,9 @@ const EventDetail = props => {
           return (
             <div key={product.id}>
               {product.product.name} {product.product.price}
-              <Button size="small" onClick={() => removeProduct(product.id)}><DeleteIcon /></Button>
+              <Button size="small" onClick={() => removeProduct(product.id)}>
+                <DeleteIcon />
+              </Button>
             </div>
           )
         })}
@@ -160,17 +173,26 @@ const EventDetail = props => {
 
         {payments.length ? (
           <>
-            <h3>Select Payment</h3>
-            <select ref={payment} name="payment" required defaultValue="0">
-              <option value="0">Select Payment</option>
-              {payments.map(payment => {
+            <FormControl>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+                displayEmpty
+              >
+                <MenuItem value="" disabled>
+                  Select Payment Type
+                </MenuItem>
+                {payments.map(payment => {
                 return (
-                  <option key={payment.id} value={payment.id}>
+                  <MenuItem key={payment.id} value={payment.id}>
                     {payment.merchant_name}
-                  </option>
+                  </MenuItem>
                 )
               })}
-            </select>
+              </Select>
+            </FormControl>
           </>
         ) : (
           <>
@@ -189,7 +211,10 @@ const EventDetail = props => {
           <>
             {payments.length > 0 ? (
               <>
-                <Button size="small" color="primary" variant="outlined"
+                <Button
+                  size="small"
+                  color="primary"
+                  variant="outlined"
                   onClick={() => {
                     handleConfirm(order.id, payment)
                   }}
