@@ -1,14 +1,30 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
 import PaymentForm from "./PaymentForm"
+import { Link } from "react-router-dom"
+import Grid from "@material-ui/core/Grid"
+import Button from "@material-ui/core/Button"
+import DeleteIcon from "@material-ui/icons/Delete"
+import MenuItem from "@material-ui/core/MenuItem"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
 
 const EventDetail = props => {
-  // const { customer } = props
+  const { customerId, customer } = props
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])
 
-  const payment = useRef()
+  const [payment, setPayment] = useState("")
+  const handleChange = event => {
+    setPayment(event.target.value)
+  }
+
+  const total = () => {
+    let total = 0
+    products.forEach(product => (total += +product.product.price))
+    return total
+  }
 
   const getOrders = eventId => {
     fetch(`http://localhost:8000/order/${eventId}`, {
@@ -75,8 +91,10 @@ const EventDetail = props => {
   }
 
   const handleConfirm = orderId => {
-    if (!payment.current.value) {
+    if (payment === "") {
       window.alert("Please select a payment")
+    } else if (total() === 0) {
+      window.alert("Must have at lease one product to checkout")
     } else {
       fetch(`http://localhost:8000/order/${orderId}`, {
         method: "PUT",
@@ -85,10 +103,10 @@ const EventDetail = props => {
           "Content-Type": "application/json",
           Authorization: `Token ${localStorage.getItem("kter_token")}`
         },
-        body: JSON.stringify({ payment_id: +payment.current.value })
+        body: JSON.stringify({ payment_id: +payment })
       }).then(() => {
-        payment.current.value = "0"
-        getOrders()
+        setPayment("")
+        getOrders(order.id)
       })
     }
   }
@@ -99,83 +117,107 @@ const EventDetail = props => {
     getPayments(props.customerId)
   }, [props.eventId, props.customerId])
 
-  const total = () => {
-    let total = 0
-    products.forEach(product => (total += +product.product.price))
-    return total
-  }
-
   return (
-    <>
-      <h3>{order.location}</h3>
+    <Grid container>
+      <Grid>
+        <h3>Available Food</h3>
+        <EventProducts
+          orderId={order.id}
+          getProducts={getProducts}
+          products={props.products}
+        />
+      </Grid>
+      <Grid>
+        <h3>
+          {customer.map(c => (
+            <Link key={c.id} to={`/customer/${c.id}`}>
+              {order.location} - {c.name}
+            </Link>
+          ))}
+        </h3>
+        <Button
+          size="small"
+          variant="outlined"
+          color="secondary"
+          onClick={() => {
+            if (window.confirm("Are you sure?")) {
+              deleteItem(order.id)
+            }
+          }}
+        >
+          Delete Order
+        </Button>
+        {products.map(product => {
+          return (
+            <div key={product.id}>
+              {product.product.name} {product.product.price}
+              <Button size="small" onClick={() => removeProduct(product.id)}>
+                <DeleteIcon />
+              </Button>
+            </div>
+          )
+        })}
 
-      {products.map(product => {
-        return (
-          <div key={product.id}>
-            {product.product.name} {product.product.price}
-            <button onClick={() => removeProduct(product.id)}>-</button>
-          </div>
-        )
-      })}
+        <h1>Total Price: ${total()}</h1>
 
-      {payments.length > 0 ? (
-        <>
-          <h3>Select Payment</h3>
-          <select ref={payment} name="payment" required defaultValue="0">
-            <option value="0">Select Payment</option>
-            {payments.map(payment => {
-              return (
-                <option key={payment.id} value={payment.id}>
-                  {payment.merchant_name}
-                </option>
-              )
-            })}
-          </select>
-        </>
-      ) : (
-        <>
-          <h3>This customer has no payment information</h3>
-          <PaymentForm getPayments={getPayments} />
-        </>
-      )}
+        {payments.length ? (
+          <>
+            <FormControl>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={payment}
+                onChange={handleChange}
+                displayEmpty
+              >
+                <MenuItem value="" disabled>
+                  Select Payment Type
+                </MenuItem>
+                {payments.map(payment => {
+                return (
+                  <MenuItem key={payment.id} value={payment.id}>
+                    {payment.merchant_name}
+                  </MenuItem>
+                )
+              })}
+              </Select>
+            </FormControl>
+          </>
+        ) : (
+          <>
+            <h3>This customer has no payment information</h3>
+            <PaymentForm
+              getPayments={() => getPayments(customerId)}
+              customerId={customerId}
+              handleClosePay={() => null}
+            />
+          </>
+        )}
 
-      {order.payment ? (
-        <p>Order Confirmed!</p>
-      ) : (
-        <>
+        {order.payment ? (
+          <h1 style={{ color: 'springgreen'}}>Order Confirmed!</h1>
+        ) : (
+          <>
             {payments.length > 0 ? (
               <>
-              <h1>Total Price: ${total()}</h1>
-            <button
-            onClick={() => {
-              handleConfirm(order.id, payment)
-            }}
-            >
-              Confirm Order
-            </button>
+                <Button
+                  size="small"
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => {
+                    handleConfirm(order.id, payment)
+                  }}
+                >
+                  Confirm Order
+                </Button>
               </>
-          ) : (
-            <div />
-          )}
-        </>
-      )}
-
-      <h3>Add Food To Order</h3>
-      <EventProducts
-        orderId={order.id}
-        getProducts={getProducts}
-        products={props.products}
-      />
-      <button
-        onClick={() => {
-          if (window.confirm("Are you sure?")) {
-            deleteItem(order.id)
-          }
-        }}
-      >
-        Delete Order
-      </button>
-    </>
+            ) : (
+              <div />
+            )}
+          </>
+        )}
+      </Grid>
+    </Grid>
   )
 }
 export default EventDetail

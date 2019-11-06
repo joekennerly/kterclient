@@ -1,18 +1,4 @@
-.App-header {
-  /* background-color: #282c34; */
-  min-height: 100vh;
-  /* color: whitesmoke; */
-}
-
-.App-views {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* font-size: calc(6px + 2vmin); */
-}
-
 a{
-  /* color:white; */
   text-decoration: none;
 }
 ul {
