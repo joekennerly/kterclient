@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from "react"
 import EventProducts from "./EventProducts"
-import PaymentForm from "./PaymentForm"
+// import PaymentForm from "./PaymentForm"
 import Grid from "@material-ui/core/Grid"
 
 const EventDetail = props => {
-  const { customer } = props
+  // const { customer } = props
   const payment = useRef()
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])
   const [confirmation, setConfirmation] = useState(false)
+
 
   const getConfirmation = () => {
     if (order.payment !== null) {
@@ -116,7 +117,6 @@ const EventDetail = props => {
     getOrders(props.eventId)
     getProducts(props.eventId)
     getPayments(props.customerId)
-    getConfirmation()
   }, [props.eventId, props.customerId])
 
   return (
@@ -167,7 +167,7 @@ const EventDetail = props => {
         ) : (
           <>
             <h3>This customer has no payment information</h3>
-              <PaymentForm getPayments={() => getPayments(customer.id)} customerId={customer.id} handleClosePay={()=>null} />
+              {/* <PaymentForm getPayments={() => getPayments(customer.id)} customerId={customer.id} handleClosePay={()=>null} /> */}
           </>
         )}
 

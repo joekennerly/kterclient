@@ -18,7 +18,7 @@ const App = () => {
             .then(user => {
                 setUser(user)
             })
-    useEffect(()=>getUser(), [])
+    useEffect(()=>{getUser()}, [])
 
     return (
         <section className="App-header">

@@ -15,6 +15,7 @@ const ApplicationViews = () => {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [categories, setCategories] = useState([])
+
     const getProducts = () =>
         fetch("http://localhost:8000/product?vendor=current", {
             method: "GET",
