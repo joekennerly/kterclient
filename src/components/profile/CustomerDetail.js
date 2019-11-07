@@ -137,7 +137,7 @@ const CustomerDetail = props => {
       </Dialog>
       </Grid>
       <Grid item>
-      <Typography variant="h6">Customer's Orders</Typography>
+      <Typography variant="h6">Customer's Events</Typography>
       <Button variant="outlined" color="primary" onClick={handleOpenEv}>
         Add An Event
       </Button>
