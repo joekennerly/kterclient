@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react"
+import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
 
 const PaymentDetail = props => {
     const [payment, setPayments] = useState([])
@@ -36,10 +38,10 @@ const PaymentDetail = props => {
 
     return (
         <>
-            <h3>{payment.merchant_name}</h3>
-            <h5>{payment.account_number}</h5>
-            <p>{payment.expiration}</p>
-            <button
+            <Typography variant="h4">{payment.merchant_name}</Typography>
+            <Typography variant="h6">{payment.account_number}</Typography>
+            <Typography>{payment.expiration}</Typography>
+            <Button variant="outlined" color="secondary"
                 onClick={() => {
                     if (window.confirm("Are you sure?")) {
                         deleteItem(payment.id)
@@ -47,7 +49,7 @@ const PaymentDetail = props => {
                 }}
             >
                 Delete
-            </button>
+            </Button>
         </>
     )
 }

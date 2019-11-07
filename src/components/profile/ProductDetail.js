@@ -55,9 +55,6 @@ const ProductDetail = props => {
         Delete
       </Button>
       <Button variant="outlined" size="small"
-        // onClick={() => {
-        //   props.history.push(`/product/${product.id}/edit`)
-        // }}
         onClick={handleOpenEdit}
       >
         Edit

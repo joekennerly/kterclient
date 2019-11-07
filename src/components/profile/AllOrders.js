@@ -17,8 +17,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-console.log(moment.locale())
-
 export default function AllOrders(props) {
   const { confirmed } = props
   const classes = useStyles()

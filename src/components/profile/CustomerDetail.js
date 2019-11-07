@@ -7,6 +7,7 @@ import EventForm from "./EventForm"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
+import Grid from "@material-ui/core/Grid"
 
 const CustomerDetail = props => {
   const [customer, setCustomer] = useState([])
@@ -87,7 +88,8 @@ const CustomerDetail = props => {
   }, [props.customerId])
 
   return (
-    <>
+    <Grid container spacing={3}>
+      <Grid item>
       <Typography variant="h4">{customer.name}</Typography>
       <Typography>{customer.phone}</Typography>
       <Button
@@ -133,7 +135,8 @@ const CustomerDetail = props => {
           handleClosePay={handleClosePay}
         />
       </Dialog>
-
+      </Grid>
+      <Grid item>
       <Typography variant="h6">Customer's Orders</Typography>
       <Button variant="outlined" color="primary" onClick={handleOpenEv}>
         Add An Event
@@ -151,7 +154,8 @@ const CustomerDetail = props => {
         />
       </Dialog>
       <EventList orders={orders} customer={customer} />
-    </>
+      </Grid>
+    </Grid>
   )
 }
 export default CustomerDetail
