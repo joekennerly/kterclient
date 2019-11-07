@@ -2,6 +2,7 @@ import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 import "./Login.css"
+import { Link } from "react-router-dom"
 
 const Register = props => {
     // Dom refs
@@ -47,6 +48,7 @@ const Register = props => {
                 <h1>
                     Register to use KTER
                 </h1>
+                <Link to="/login">Already a member? Sign In</Link>
                 <fieldset>
                     <label htmlFor="username"> Username </label>
                     <input
