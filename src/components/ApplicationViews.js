@@ -81,7 +81,7 @@ const ApplicationViews = () => {
         <>
             <Route path="/register" render={props => <Register />} />
             <Route path="/login" render={props => <Login />} />
-            <Route exact path="/" render={props => <Home />} />
+            <Route exact path="/" render={props => <Home {...props}/>} />
             <Route exact path="/profile" render={props => <Profile categories={categories} getProducts={getProducts}/>} />
             <Route
                 exact

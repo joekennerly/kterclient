@@ -40,7 +40,6 @@ const Navbar = props => {
                 <Typography variant="h6" className={classes.title}>
                   K TER
                 </Typography>
-                {/* <MenuIcon aria-controls="simple-menu" aria-haspopup="true" /> */}
               </IconButton>
             </>
           ) : (
