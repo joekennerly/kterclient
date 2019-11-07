@@ -32,11 +32,11 @@ export default function AllOrders(props) {
                   <Paper className={classes.paper}>
                     {order.payment ? (
                       <Typography style={{ color: "springgreen" }}>
-                        {moment(order.start).add(6, 'hours').format("MMM Do @ hh:mm A")} {order.customer.name} {order.location} {"[CONFIRMED]"}
+                        {moment(order.start).add(6, 'hours').format("MMM Do @ h:mm A")} - {order.customer.name} - {order.location} {"[CONFIRMED]"}
                       </Typography>
                     ) : (
                       <Typography style={{ color: "tomato" }}>
-                        {moment(order.start).add(6, 'hours').format("MMM Do @ hh:mm A")} {order.customer.name} {order.location}
+                        {moment(order.start).add(6, 'hours').format("MMM Do @ h:mm A")} - {order.customer.name} - {order.location}
                       </Typography>
                     )}
                   </Paper>
