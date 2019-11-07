@@ -15,6 +15,20 @@ const ApplicationViews = () => {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [categories, setCategories] = useState([])
+    const [payments, setPayments] = useState([])
+
+    const getPayments = () =>
+        fetch("http://localhost:8000/payment", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(payments => {
+                setPayments(payments)
+            })
 
     const getProducts = () =>
         fetch("http://localhost:8000/product?vendor=current", {
@@ -59,6 +73,7 @@ const ApplicationViews = () => {
         getProducts()
         getCustomers()
         getCategories()
+        getPayments()
     }, [])
 
 
@@ -98,7 +113,8 @@ const ApplicationViews = () => {
                 path="/payment/:paymentId(\d+)"
                 render={props => {
                     const paymentId = +props.match.params.paymentId
-                    return <PaymentDetail {...props} paymentId={paymentId} />
+                    const pay = payments.filter(payment=>payment.id === paymentId)
+                    return <PaymentDetail {...props} getPayments={getPayments} payment={pay} paymentId={paymentId} />
                 }}
             />
             <Route
