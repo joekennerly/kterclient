@@ -85,6 +85,7 @@ const ProductEdit = props => {
         })
         .then(() => {
           getProduct()
+          props.getProducts()
           handleCloseEdit()
         })
     }

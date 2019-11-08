@@ -78,7 +78,10 @@ const CustomerDetail = props => {
         Accept: "application/json",
         Authorization: `Token ${localStorage.getItem("kter_token")}`
       }
-    }).then(() => props.history.push("/profile"))
+    }).then(() => {
+      props.getCustomers()
+      props.history.push("/profile")
+    })
   }
 
   useEffect(() => {
@@ -92,10 +95,11 @@ const CustomerDetail = props => {
       <Grid item>
       <Typography variant="h4">{customer.name}</Typography>
       <Typography>{customer.phone}</Typography>
+      <Typography>{customer.city}</Typography>
       <Button
         variant="outlined"
         onClick={() => {
-          if (window.confirm("Are you sure?")) {
+          if (window.confirm("Are you sure? This will delete all associated events for this customer")) {
             deleteItem(customer.id)
           }
         }}
@@ -111,7 +115,7 @@ const CustomerDetail = props => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <CustomerEdit customer={customer} getCustomer={()=>getCustomer(customer.id)} handleCloseEdit={handleCloseEdit}/>
+        <CustomerEdit customer={customer} getCustomers={props.getCustomers} getCustomer={()=>getCustomer(customer.id)} handleCloseEdit={handleCloseEdit}/>
       </Dialog>
 
       <Typography variant="h6">Payment Types</Typography>
@@ -137,7 +141,7 @@ const CustomerDetail = props => {
       </Dialog>
       </Grid>
       <Grid item>
-      <Typography variant="h6">Customer's Events</Typography>
+      <Typography variant="h6">Events</Typography>
       <Button variant="outlined" color="primary" onClick={handleOpenEv}>
         Add An Event
       </Button>

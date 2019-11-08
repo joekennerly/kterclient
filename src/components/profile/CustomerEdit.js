@@ -42,6 +42,7 @@ const CustomerEdit = props => {
         })
         .then(() => {
           getCustomer()
+          props.getCustomers()
           handleCloseEdit()
         })
     }

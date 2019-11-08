@@ -23,8 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ProductForm(props) {
-    const { categories } = props
-    const { getProducts, handleClose } = props
+    const { categories, getProducts, handleClose } = props
     const classes = useStyles()
 
     const [selected, setSelected] = useState("")

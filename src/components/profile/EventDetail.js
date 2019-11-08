@@ -8,9 +8,10 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
+import moment from "moment"
 
 const EventDetail = props => {
-  const { customerId, customer } = props
+  const { customerId, eventId, customer, prods } = props
   const [order, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [payments, setPayments] = useState([])
@@ -112,10 +113,10 @@ const EventDetail = props => {
   }
 
   useEffect(() => {
-    getOrders(props.eventId)
-    getProducts(props.eventId)
-    getPayments(props.customerId)
-  }, [props.eventId, props.customerId])
+    getOrders(eventId)
+    getProducts(eventId)
+    getPayments(customerId)
+  }, [eventId, customerId])
 
   return (
     <Grid container>
@@ -124,14 +125,14 @@ const EventDetail = props => {
         <EventProducts
           orderId={order.id}
           getProducts={getProducts}
-          products={props.products}
+          products={prods}
         />
       </Grid>
       <Grid>
         <h3>
           {customer.map(c => (
             <Link key={c.id} to={`/customer/${c.id}`}>
-              {order.location} - {c.name}
+              {moment(order.start).add(6, 'hours').format('MMM Do h:mm A')} - {order.location} - {c.name}
             </Link>
           ))}
         </h3>

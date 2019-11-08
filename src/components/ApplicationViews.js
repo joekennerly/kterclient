@@ -82,13 +82,13 @@ const ApplicationViews = () => {
             <Route path="/register" render={props => <Register />} />
             <Route path="/login" render={props => <Login />} />
             <Route exact path="/" render={props => <Home {...props}/>} />
-            <Route exact path="/profile" render={props => <Profile categories={categories} getProducts={getProducts}/>} />
+            <Route exact path="/profile" render={props => <Profile categories={categories} products={products} getProducts={getProducts}/>} />
             <Route
                 exact
                 path="/product/:productId(\d+)"
                 render={props => {
                     const productId = +props.match.params.productId
-                    return <ProductDetail {...props} productId={productId} products={products}/>
+                    return <ProductDetail {...props} productId={productId} products={products} getProducts={getProducts}/>
                 }}
             />
             <Route
@@ -97,7 +97,7 @@ const ApplicationViews = () => {
                 render={props => {
                     const productId = +props.match.params.productId
                     const prod = products.filter(product=>product.id === productId)
-                    return <ProductEdit {...props} product={prod} productId={productId} />
+                    return <ProductEdit {...props} product={prod} productId={productId} getProducts={getProducts}/>
                 }}
             />
             <Route
@@ -105,7 +105,7 @@ const ApplicationViews = () => {
                 path="/customer/:customerId(\d+)"
                 render={props => {
                     const customerId = +props.match.params.customerId
-                    return <CustomerDetail {...props} customerId={customerId} />
+                    return <CustomerDetail {...props} customerId={customerId} getCustomers={getCustomers} />
                 }}
             />
             <Route
@@ -127,10 +127,11 @@ const ApplicationViews = () => {
                     return (
                         <EventDetail
                             {...props}
-                            products={products}
                             eventId={eventId}
                             customerId={customerId}
                             customer={cust}
+                            prods={products}
+                            getProds={getProducts}
                         />
                     )
                 }}
