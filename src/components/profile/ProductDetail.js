@@ -48,6 +48,7 @@ const ProductDetail = props => {
     <>
       <Typography variant="h4">{product.name}</Typography>
       <Typography variant="h6">${product.price}</Typography>
+      <Typography variant="h6">{props.category.name}</Typography>
       <Typography>Description: {product.description}</Typography>
       <Button variant="outlined" size="small"
         onClick={() => {

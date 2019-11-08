@@ -88,7 +88,9 @@ const ApplicationViews = () => {
                 path="/product/:productId(\d+)"
                 render={props => {
                     const productId = +props.match.params.productId
-                    return <ProductDetail {...props} productId={productId} products={products} getProducts={getProducts}/>
+                    const product = products.filter(product=> product.id === productId)
+                    const category = categories.filter(category=> category.id === product.productcategory_id)
+                    return <ProductDetail {...props} category={category} productId={productId} products={products} getProducts={getProducts}/>
                 }}
             />
             <Route

@@ -99,7 +99,7 @@ const CustomerDetail = props => {
       <Button
         variant="outlined"
         onClick={() => {
-          if (window.confirm("Are you sure? This will delete all associated events for this customer")) {
+          if (window.confirm("Are you sure? This will delete all events for this customer")) {
             deleteItem(customer.id)
           }
         }}
