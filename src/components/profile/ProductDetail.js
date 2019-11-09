@@ -6,6 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import ProductEdit from "./ProductEdit"
 
 const ProductDetail = props => {
+  const { getProducts } = props
   const [product, setProducts] = useState([])
   const [openEdit, setOpenEdit] = useState(false)
   const handleOpenEdit = () => setOpenEdit(true)
@@ -33,7 +34,10 @@ const ProductDetail = props => {
         Accept: "application/json",
         Authorization: `Token ${localStorage.getItem("kter_token")}`
       }
-    }).then(() => props.history.push("/profile"))
+    }).then(() => {
+      getProducts()
+      props.history.push("/profile")
+    })
   }
 
   useEffect(() => {
@@ -44,6 +48,7 @@ const ProductDetail = props => {
     <>
       <Typography variant="h4">{product.name}</Typography>
       <Typography variant="h6">${product.price}</Typography>
+      <Typography variant="h6">{props.category.name}</Typography>
       <Typography>Description: {product.description}</Typography>
       <Button variant="outlined" size="small"
         onClick={() => {
@@ -55,9 +60,6 @@ const ProductDetail = props => {
         Delete
       </Button>
       <Button variant="outlined" size="small"
-        // onClick={() => {
-        //   props.history.push(`/product/${product.id}/edit`)
-        // }}
         onClick={handleOpenEdit}
       >
         Edit
@@ -68,7 +70,7 @@ const ProductDetail = props => {
         aria-labelledby="form-dialog-title"
       >
         <DialogContent>
-          <ProductEdit product={product} getProduct={() => {getProduct(product.id)}} handleCloseEdit={handleCloseEdit}/>
+          <ProductEdit product={product} getProducts={getProducts} getProduct={() => {getProduct(product.id)}} handleCloseEdit={handleCloseEdit}/>
         </DialogContent>
       </Dialog>
     </>

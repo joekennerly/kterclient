@@ -7,6 +7,7 @@ import EventForm from "./EventForm"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
+import Grid from "@material-ui/core/Grid"
 
 const CustomerDetail = props => {
   const [customer, setCustomer] = useState([])
@@ -77,7 +78,10 @@ const CustomerDetail = props => {
         Accept: "application/json",
         Authorization: `Token ${localStorage.getItem("kter_token")}`
       }
-    }).then(() => props.history.push("/profile"))
+    }).then(() => {
+      props.getCustomers()
+      props.history.push("/profile")
+    })
   }
 
   useEffect(() => {
@@ -87,13 +91,15 @@ const CustomerDetail = props => {
   }, [props.customerId])
 
   return (
-    <>
+    <Grid container spacing={3}>
+      <Grid item>
       <Typography variant="h4">{customer.name}</Typography>
       <Typography>{customer.phone}</Typography>
+      <Typography>{customer.city}</Typography>
       <Button
         variant="outlined"
         onClick={() => {
-          if (window.confirm("Are you sure?")) {
+          if (window.confirm("Are you sure? This will delete all events for this customer")) {
             deleteItem(customer.id)
           }
         }}
@@ -109,7 +115,7 @@ const CustomerDetail = props => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <CustomerEdit customer={customer} getCustomer={()=>getCustomer(customer.id)} handleCloseEdit={handleCloseEdit}/>
+        <CustomerEdit customer={customer} getCustomers={props.getCustomers} getCustomer={()=>getCustomer(customer.id)} handleCloseEdit={handleCloseEdit}/>
       </Dialog>
 
       <Typography variant="h6">Payment Types</Typography>
@@ -133,8 +139,9 @@ const CustomerDetail = props => {
           handleClosePay={handleClosePay}
         />
       </Dialog>
-
-      <Typography variant="h6">Customer's Orders</Typography>
+      </Grid>
+      <Grid item>
+      <Typography variant="h6">Events</Typography>
       <Button variant="outlined" color="primary" onClick={handleOpenEv}>
         Add An Event
       </Button>
@@ -151,7 +158,8 @@ const CustomerDetail = props => {
         />
       </Dialog>
       <EventList orders={orders} customer={customer} />
-    </>
+      </Grid>
+    </Grid>
   )
 }
 export default CustomerDetail

@@ -2,6 +2,7 @@ import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 import "./Login.css"
+import { Link } from "react-router-dom"
 
 const Login = props => {
     const username = useRef()
@@ -31,6 +32,7 @@ const Login = props => {
     return (
         <form className="form--login" onSubmit={handleLogin}>
             <h1>Please sign in</h1>
+            <Link to="/register">Register An Account</Link>
             <fieldset>
                 <label htmlFor="inputEmail"> Username </label>
                 <input

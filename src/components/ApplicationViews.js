@@ -15,6 +15,20 @@ const ApplicationViews = () => {
     const [products, setProducts] = useState([])
     const [customers, setCustomers] = useState([])
     const [categories, setCategories] = useState([])
+    const [payments, setPayments] = useState([])
+
+    const getPayments = () =>
+        fetch("http://localhost:8000/payment", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Token ${localStorage.getItem("kter_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(payments => {
+                setPayments(payments)
+            })
 
     const getProducts = () =>
         fetch("http://localhost:8000/product?vendor=current", {
@@ -59,6 +73,7 @@ const ApplicationViews = () => {
         getProducts()
         getCustomers()
         getCategories()
+        getPayments()
     }, [])
 
 
@@ -66,14 +81,16 @@ const ApplicationViews = () => {
         <>
             <Route path="/register" render={props => <Register />} />
             <Route path="/login" render={props => <Login />} />
-            <Route exact path="/" render={props => <Home />} />
-            <Route exact path="/profile" render={props => <Profile categories={categories} getProducts={getProducts}/>} />
+            <Route exact path="/" render={props => <Home {...props}/>} />
+            <Route exact path="/profile" render={props => <Profile categories={categories} products={products} getProducts={getProducts}/>} />
             <Route
                 exact
                 path="/product/:productId(\d+)"
                 render={props => {
                     const productId = +props.match.params.productId
-                    return <ProductDetail {...props} productId={productId} products={products}/>
+                    const product = products.filter(product=> product.id === productId)
+                    const category = categories.filter(category=> category.id === product.productcategory_id)
+                    return <ProductDetail {...props} category={category} productId={productId} products={products} getProducts={getProducts}/>
                 }}
             />
             <Route
@@ -82,7 +99,7 @@ const ApplicationViews = () => {
                 render={props => {
                     const productId = +props.match.params.productId
                     const prod = products.filter(product=>product.id === productId)
-                    return <ProductEdit {...props} product={prod} productId={productId} />
+                    return <ProductEdit {...props} product={prod} productId={productId} getProducts={getProducts}/>
                 }}
             />
             <Route
@@ -90,7 +107,7 @@ const ApplicationViews = () => {
                 path="/customer/:customerId(\d+)"
                 render={props => {
                     const customerId = +props.match.params.customerId
-                    return <CustomerDetail {...props} customerId={customerId} />
+                    return <CustomerDetail {...props} customerId={customerId} getCustomers={getCustomers} />
                 }}
             />
             <Route
@@ -98,7 +115,8 @@ const ApplicationViews = () => {
                 path="/payment/:paymentId(\d+)"
                 render={props => {
                     const paymentId = +props.match.params.paymentId
-                    return <PaymentDetail {...props} paymentId={paymentId} />
+                    const pay = payments.filter(payment=>payment.id === paymentId)
+                    return <PaymentDetail {...props} getPayments={getPayments} payment={pay} paymentId={paymentId} />
                 }}
             />
             <Route
@@ -111,10 +129,11 @@ const ApplicationViews = () => {
                     return (
                         <EventDetail
                             {...props}
-                            products={products}
                             eventId={eventId}
                             customerId={customerId}
                             customer={cust}
+                            prods={products}
+                            getProds={getProducts}
                         />
                     )
                 }}

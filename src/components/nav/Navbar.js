@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Navbar = props => {
-  const { user } = props
 
   const classes = useStyles()
   const { isAuthenticated, logout } = useSimpleAuth()
@@ -40,7 +39,6 @@ const Navbar = props => {
                 <Typography variant="h6" className={classes.title}>
                   K TER
                 </Typography>
-                {/* <MenuIcon aria-controls="simple-menu" aria-haspopup="true" /> */}
               </IconButton>
             </>
           ) : (
@@ -49,11 +47,6 @@ const Navbar = props => {
           <Typography variant="h6" className={classes.title} />
           {isAuthenticated() ? (
             <>
-              {user.map(vendor => (
-                <Typography key={vendor.id} id="profile">
-                  Signed in as {vendor.user.first_name} {vendor.user.last_name}
-                </Typography>
-              ))}
               <Button
                 color="inherit"
                 onClick={() => {
