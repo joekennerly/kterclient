@@ -13,7 +13,7 @@ const ProductDetail = props => {
   const handleCloseEdit = () => setOpenEdit(false)
 
   const getProduct = productId => {
-    fetch(`http://localhost:8000/product/${productId}`, {
+    fetch(`https://kterapi.herokuapp.com/product/${productId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const ProductDetail = props => {
   }
 
   const deleteItem = id => {
-    fetch(`http://localhost:8000/product/${id}`, {
+    fetch(`https://kterapi.herokuapp.com/product/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

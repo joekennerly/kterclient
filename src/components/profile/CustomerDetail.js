@@ -27,7 +27,7 @@ const CustomerDetail = props => {
   const handleCloseEv = () => setOpenEv(false)
 
   const getCustomer = customerId => {
-    fetch(`http://localhost:8000/customer/${customerId}`, {
+    fetch(`https://kterapi.herokuapp.com/customer/${customerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const CustomerDetail = props => {
   }
 
   const getPayments = customerId => {
-    fetch(`http://localhost:8000/payment?customer_id=${customerId}`, {
+    fetch(`https://kterapi.herokuapp.com/payment?customer_id=${customerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const CustomerDetail = props => {
   }
 
   const getOrders = customerId => {
-    fetch(`http://localhost:8000/order?customer_id=${customerId}`, {
+    fetch(`https://kterapi.herokuapp.com/order?customer_id=${customerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const CustomerDetail = props => {
   }
 
   const deleteItem = id => {
-    fetch(`http://localhost:8000/customer/${id}`, {
+    fetch(`https://kterapi.herokuapp.com/customer/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

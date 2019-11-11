@@ -8,7 +8,7 @@ const useSimpleAuth = () => {
         loggedIn || localStorage.getItem("kter_token") !== null
 
     const register = userInfo => {
-        return fetch("http://localhost:8000/register", {
+        return fetch("https://kterapi.herokuapp.com/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const useSimpleAuth = () => {
     }
 
     const login = credentials => {
-        return fetch("http://localhost:8000/login", {
+        return fetch("https://kterapi.herokuapp.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -28,7 +28,7 @@ const EventDetail = props => {
   }
 
   const getOrders = eventId => {
-    fetch(`http://localhost:8000/order/${eventId}`, {
+    fetch(`https://kterapi.herokuapp.com/order/${eventId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const EventDetail = props => {
   }
 
   const getProducts = eventId => {
-    fetch(`http://localhost:8000/orderproduct?order_id=${eventId}`, {
+    fetch(`https://kterapi.herokuapp.com/orderproduct?order_id=${eventId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const EventDetail = props => {
   }
 
   const getPayments = customerId => {
-    fetch(`http://localhost:8000/payment?customer_id=${customerId}`, {
+    fetch(`https://kterapi.herokuapp.com/payment?customer_id=${customerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const EventDetail = props => {
   }
 
   const deleteItem = id => {
-    fetch(`http://localhost:8000/order/${id}`, {
+    fetch(`https://kterapi.herokuapp.com/order/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -82,7 +82,7 @@ const EventDetail = props => {
     }).then(() => props.history.push(`/customer/${props.customerId}`))
   }
   const removeProduct = opId => {
-    fetch(`http://localhost:8000/orderproduct/${opId}`, {
+    fetch(`https://kterapi.herokuapp.com/orderproduct/${opId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -97,7 +97,7 @@ const EventDetail = props => {
     } else if (total() === 0) {
       window.alert("Must have at lease one product to checkout")
     } else {
-      fetch(`http://localhost:8000/order/${orderId}`, {
+      fetch(`https://kterapi.herokuapp.com/order/${orderId}`, {
         method: "PUT",
         headers: {
           Accept: "application/json",

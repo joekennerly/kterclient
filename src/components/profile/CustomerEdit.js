@@ -22,7 +22,7 @@ const CustomerEdit = props => {
     if (name === "" || phone === "" || city === "") {
       window.alert("Please fill out all form fields")
     } else {
-      fetch(`http://localhost:8000/customer/${id}`, {
+      fetch(`https://kterapi.herokuapp.com/customer/${id}`, {
         method: "PUT",
         headers: {
           Accept: "application/json",
