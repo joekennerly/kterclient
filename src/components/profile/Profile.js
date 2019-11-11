@@ -28,7 +28,7 @@ export default function Profile(props) {
   const handleCustClose = () => setOpenCust(false)
 
   const getProducts = () =>
-    fetch("http://localhost:8000/product?vendor=current", {
+    fetch("https://kterapi.herokuapp.com/product?vendor=current", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -41,7 +41,7 @@ export default function Profile(props) {
       })
 
   const getCustomers = () =>
-    fetch("http://localhost:8000/customer?vendor=current", {
+    fetch("https://kterapi.herokuapp.com/customer?vendor=current", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -54,7 +54,7 @@ export default function Profile(props) {
       })
 
   const getConfirmed = () =>
-    fetch("http://localhost:8000/order?current", {
+    fetch("https://kterapi.herokuapp.com/order?current", {
       method: "GET",
       headers: {
         Accept: "application/json",

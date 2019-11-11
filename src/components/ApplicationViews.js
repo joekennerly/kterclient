@@ -18,7 +18,7 @@ const ApplicationViews = () => {
     const [payments, setPayments] = useState([])
 
     const getPayments = () =>
-        fetch("http://localhost:8000/payment", {
+        fetch("https://kterapi.herokuapp.com/payment", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -31,7 +31,7 @@ const ApplicationViews = () => {
             })
 
     const getProducts = () =>
-        fetch("http://localhost:8000/product?vendor=current", {
+        fetch("https://kterapi.herokuapp.com/product?vendor=current", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -44,7 +44,7 @@ const ApplicationViews = () => {
             })
 
     const getCategories = () =>
-        fetch("http://localhost:8000/category", {
+        fetch("https://kterapi.herokuapp.com/category", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -57,7 +57,7 @@ const ApplicationViews = () => {
             })
 
     const getCustomers = () =>
-        fetch("http://localhost:8000/customer?vendor=current", {
+        fetch("https://kterapi.herokuapp.com/customer?vendor=current", {
             method: "GET",
             headers: {
                 Accept: "application/json",

@@ -6,7 +6,7 @@ const PaymentDetail = props => {
     const [payment, setPayments] = useState([])
 
     const getPayment = paymentId => {
-        fetch(`http://localhost:8000/payment/${paymentId}`, {
+        fetch(`https://kterapi.herokuapp.com/payment/${paymentId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -21,7 +21,7 @@ const PaymentDetail = props => {
     }
 
     const deleteItem = id => {
-        fetch(`http://localhost:8000/payment/${id}`, {
+        fetch(`https://kterapi.herokuapp.com/payment/${id}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",

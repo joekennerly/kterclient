@@ -5,7 +5,7 @@ import AddIcon from "@material-ui/icons/Add"
 export default function EventProducts(props) {
   const {products} = props
   const addProduct = (orderId, productId) => {
-    fetch("http://localhost:8000/orderproduct", {
+    fetch("https://kterapi.herokuapp.com/orderproduct", {
       method: "POST",
       headers: {
         Accept: "application/json",
