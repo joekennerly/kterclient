@@ -11,8 +11,9 @@ import CustomerForm from "./CustomerForm"
 import Grid from "@material-ui/core/Grid"
 
 export default function Profile(props) {
-  const {products, getProducts} = props
+  // const {products, getProducts} = props
   //API
+  const [products, setProducts] = useState([])
   const [customers, setCustomers] = useState([])
   const [confirmed, setConfirmed] = useState([])
 
@@ -25,6 +26,19 @@ export default function Profile(props) {
   const [openCust, setOpenCust] = useState(false)
   const handleCustOpen = () => setOpenCust(true)
   const handleCustClose = () => setOpenCust(false)
+
+  const getProducts = () =>
+    fetch("http://localhost:8000/product?vendor=current", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Token ${localStorage.getItem("kter_token")}`
+      }
+    })
+      .then(response => response.json())
+      .then(products => {
+        setProducts(products)
+      })
 
   const getCustomers = () =>
     fetch("http://localhost:8000/customer?vendor=current", {
@@ -54,6 +68,7 @@ export default function Profile(props) {
 
   useEffect(() => {
     getCustomers()
+    getProducts()
     getConfirmed()
   }, [])
 
