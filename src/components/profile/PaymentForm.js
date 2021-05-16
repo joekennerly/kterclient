@@ -24,7 +24,7 @@ const PaymentForm = props => {
     } else if (moment(expiration).isSameOrBefore(moment().format())) {
       window.alert("Payment type must not be expired")
     } else {
-      fetch("https://kterapi.herokuapp.com/payment", {
+      fetch("http://127.0.0.1:8000/payment", {
         method: "POST",
         headers: {
           Accept: "application/json",

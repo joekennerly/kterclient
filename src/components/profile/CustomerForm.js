@@ -23,7 +23,7 @@ const CustomerForm = props => {
         if (name === "" || phone === "" || city === "") {
             window.alert("Please fill out all form fields")
         } else {
-            fetch("https://kterapi.herokuapp.com/customer", {
+            fetch("http://127.0.0.1:8000/customer", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",

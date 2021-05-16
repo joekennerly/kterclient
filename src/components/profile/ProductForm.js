@@ -46,7 +46,7 @@ export default function ProductForm(props) {
         ) {
             window.alert("Please fill out all form fields")
         } else {
-            fetch("https://kterapi.herokuapp.com/product", {
+            fetch("http://127.0.0.1:8000/product", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
