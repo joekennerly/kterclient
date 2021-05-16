@@ -8,7 +8,7 @@ const useSimpleAuth = () => {
         loggedIn || localStorage.getItem("kter_token") !== null
 
     const register = userInfo => {
-        return fetch("https://kterapi.herokuapp.com/register", {
+        return fetch("http://127.0.0.1:8000/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -19,14 +19,14 @@ const useSimpleAuth = () => {
             .then(res => res.json())
             .then(res => {
                 if ("token" in res) {
-                    localStorage.setItem( "kter_token", res.token )
+                    localStorage.setItem("kter_token", res.token)
                     setIsLoggedIn(true)
                 }
             })
     }
 
     const login = credentials => {
-        return fetch("https://kterapi.herokuapp.com/login", {
+        return fetch("http://127.0.0.1:8000/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const useSimpleAuth = () => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
-                    localStorage.setItem( "kter_token", res.token )
+                    localStorage.setItem("kter_token", res.token)
                     setIsLoggedIn(true)
                 }
             })

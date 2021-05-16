@@ -26,7 +26,7 @@ const EventForm = props => {
     } else if (moment(end).isSameOrBefore(moment(start))) {
       window.alert("The end of the event may not occur before the beginning")
     } else {
-      fetch("https://kterapi.herokuapp.com/order", {
+      fetch("http://127.0.0.1:8000/order", {
         method: "POST",
         headers: {
           Accept: "application/json",

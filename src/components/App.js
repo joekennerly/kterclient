@@ -7,7 +7,7 @@ import Navbar from "./nav/Navbar"
 const App = () => {
     const [user, setUser] = useState([])
     const getUser = () =>
-        fetch("https://kterapi.herokuapp.com/vendor", {
+        fetch("http://127.0.0.1:8000/vendor", {
             method: "GET",
             headers: {
                 Accept: "application/json",

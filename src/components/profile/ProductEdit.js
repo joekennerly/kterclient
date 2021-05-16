@@ -40,7 +40,7 @@ const ProductEdit = props => {
   const handleDescription = e => setDescription(e.target.value)
 
   const getCategory = () => {
-    fetch("https://kterapi.herokuapp.com/category", {
+    fetch("http://127.0.0.1:8000/category", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -63,7 +63,7 @@ const ProductEdit = props => {
     if (name === "" || selected === "" || price === "" || description === "") {
       window.alert("Please fill out all form fields")
     } else {
-      fetch(`https://kterapi.herokuapp.com/product/${id}`, {
+      fetch(`http://127.0.0.1:8000/product/${id}`, {
         method: "PUT",
         headers: {
           Accept: "application/json",
